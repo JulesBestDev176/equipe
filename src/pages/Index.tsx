@@ -8,6 +8,7 @@ import Projects from '../components/Projects';
 import Team from '../components/Team';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
+import Tarifs from '@/components/Tarifs';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +25,7 @@ const Index = () => {
           <Header />
           <Hero />
           <Services />
+          {/* <Tarifs/> */}
           <Projects />
           <Team />
           <Contact />
