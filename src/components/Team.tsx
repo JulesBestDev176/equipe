@@ -32,7 +32,7 @@ const Team = () => {
     },
     {
       id: 3,
-      name: "Kissima Abdousalam Tandia",
+      name: "Kissima Abdou Salam Tandia",
       role: "Expert Automatisation",
       specialties: ["Automatisation", "Frontend", "Backend"],
       description: "Architecte de solutions d'automatisation et développeur full-stack polyvalent. Spécialiste des workflows intelligents.",
