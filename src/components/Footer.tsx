@@ -1,5 +1,6 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const ref = useRef(null);
@@ -7,32 +8,32 @@ const Footer = () => {
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    element?.scrollIntoView({ behavior: "smooth" });
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const footerSections = [
     {
-      title: 'Navigation',
+      title: "Navigation",
       items: [
-        { label: 'Accueil', action: () => scrollToSection('accueil') },
-        { label: 'Services', action: () => scrollToSection('services') },
-        { label: 'Projets', action: () => scrollToSection('projets') },
-        { label: 'Équipe', action: () => scrollToSection('equipe') },
-        { label: 'Contact', action: () => scrollToSection('contact') }
-      ]
+        { label: "Accueil", action: () => scrollToSection("accueil") },
+        { label: "Services", action: () => scrollToSection("services") },
+        { label: "Projets", action: () => scrollToSection("projets") },
+        { label: "Équipe", action: () => scrollToSection("equipe") },
+        { label: "Contact", action: () => scrollToSection("contact") },
+      ],
     },
     {
-      title: 'Services',
+      title: "Services",
       items: [
-        { label: 'Automatisation', href: '#' },
-        { label: 'Développement Web', href: '#' },
-        { label: 'Applications Mobile', href: '#' },
-        { label: 'E-commerce', href: '#' },
-      ]
+        { label: "Automatisation", href: "#" },
+        { label: "Développement Web", href: "#" },
+        { label: "Applications Mobile", href: "#" },
+        { label: "E-commerce", href: "#" },
+      ],
     },
     // {
     //   title: 'Technologies',
@@ -45,58 +46,58 @@ const Footer = () => {
     //   ]
     // },
     {
-      title: 'Ressources',
+      title: "Ressources",
       items: [
-        { label: 'Blog Tech', href: '/blog' },
-        { label: 'FAQ', href: '/faq' },
-        { label: 'Support', href: '/support' }
-      ]
-    }
+        { label: "Blog Tech", href: "/blog" },
+        { label: "FAQ", href: "/faq" },
+        { label: "Support", href: "/support" },
+      ],
+    },
   ];
 
   const socialLinks = [
-    { 
-      icon: '💼', 
-      label: 'LinkedIn', 
-      href: '#',
-      gradient: 'from-blue-600 to-blue-700',
-      hoverColor: 'hover:shadow-blue-500/30'
+    {
+      icon: "💼",
+      label: "LinkedIn",
+      href: "#",
+      gradient: "from-blue-600 to-blue-700",
+      hoverColor: "hover:shadow-blue-500/30",
     },
-    { 
-      icon: '🐱', 
-      label: 'GitHub', 
-      href: '#',
-      gradient: 'from-gray-700 to-gray-900',
-      hoverColor: 'hover:shadow-gray-500/30'
+    {
+      icon: "🐱",
+      label: "GitHub",
+      href: "#",
+      gradient: "from-gray-700 to-gray-900",
+      hoverColor: "hover:shadow-gray-500/30",
     },
-    { 
-      icon: '🐦', 
-      label: 'Twitter', 
-      href: '#',
-      gradient: 'from-sky-500 to-sky-600',
-      hoverColor: 'hover:shadow-sky-500/30'
+    {
+      icon: "🐦",
+      label: "Twitter",
+      href: "#",
+      gradient: "from-sky-500 to-sky-600",
+      hoverColor: "hover:shadow-sky-500/30",
     },
-    { 
-      icon: '📱', 
-      label: 'WhatsApp', 
-      href: '#',
-      gradient: 'from-green-600 to-green-700',
-      hoverColor: 'hover:shadow-green-500/30'
+    {
+      icon: "📱",
+      label: "WhatsApp",
+      href: "#",
+      gradient: "from-green-600 to-green-700",
+      hoverColor: "hover:shadow-green-500/30",
     },
-    { 
-      icon: '📧', 
-      label: 'Email', 
-      href: 'mailto:souleymanefall176@gmail.com',
-      gradient: 'from-purple-600 to-purple-700',
-      hoverColor: 'hover:shadow-purple-500/30'
-    }
+    {
+      icon: "📧",
+      label: "Email",
+      href: "mailto:souleymanefall176@gmail.com",
+      gradient: "from-purple-600 to-purple-700",
+      hoverColor: "hover:shadow-purple-500/30",
+    },
   ];
 
   const stats = [
-    { number: '50+', label: 'Projets réalisés', icon: '🚀' },
-    { number: '3+', label: 'Années d\'expérience', icon: '⏰' },
-    { number: '100%', label: 'Clients satisfaits', icon: '🎯' },
-    { number: '24/7', label: 'Support disponible', icon: '💬' }
+    { number: "50+", label: "Projets réalisés", icon: "🚀" },
+    { number: "3+", label: "Années d'expérience", icon: "⏰" },
+    { number: "100%", label: "Clients satisfaits", icon: "🎯" },
+    { number: "24/7", label: "Support disponible", icon: "💬" },
   ];
 
   return (
@@ -145,14 +146,14 @@ const Footer = () => {
                 >
                   <motion.div
                     className="text-4xl mb-2"
-                    animate={{ 
+                    animate={{
                       rotate: [0, 10, -10, 0],
-                      scale: [1, 1.1, 1]
+                      scale: [1, 1.1, 1],
                     }}
-                    transition={{ 
-                      duration: 3, 
+                    transition={{
+                      duration: 3,
                       repeat: Infinity,
-                      delay: index * 0.5
+                      delay: index * 0.5,
                     }}
                   >
                     {stat.icon}
@@ -186,10 +187,10 @@ const Footer = () => {
               >
                 DevFlow
               </motion.h3>
-              
+
               <p className="text-gray-300 mb-8 leading-relaxed">
-                Votre partenaire de confiance pour la transformation digitale. 
-                Nous automatisons, créons et innovons pour propulser votre 
+                Votre partenaire de confiance pour la transformation digitale.
+                Nous automatisons, créons et innovons pour propulser votre
                 entreprise vers l'excellence technologique.
               </p>
 
@@ -199,15 +200,19 @@ const Footer = () => {
                   <motion.a
                     key={social.label}
                     href={social.href}
-                    target={social.href.startsWith('http') ? '_blank' : '_self'}
-                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : ''}
+                    target={social.href.startsWith("http") ? "_blank" : "_self"}
+                    rel={
+                      social.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : ""
+                    }
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.4 + index * 0.1 }}
-                    whileHover={{ 
-                      scale: 1.1, 
+                    whileHover={{
+                      scale: 1.1,
                       y: -5,
-                      boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)"
+                      boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)",
                     }}
                     whileTap={{ scale: 0.95 }}
                     className={`w-12 h-12 bg-gradient-to-r ${social.gradient} rounded-xl flex items-center justify-center text-xl text-white shadow-lg transition-all duration-300 ${social.hoverColor}`}
@@ -246,21 +251,27 @@ const Footer = () => {
                 <h4 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
                   <motion.span
                     animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="text-blue-400"
                   >
                     ✦
                   </motion.span>
                   {section.title}
                 </h4>
-                
+
                 <ul className="space-y-3">
                   {section.items.map((item, itemIndex) => (
                     <motion.li
                       key={item.label}
                       initial={{ opacity: 0, x: -20 }}
                       animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ delay: 0.6 + sectionIndex * 0.1 + itemIndex * 0.05 }}
+                      transition={{
+                        delay: 0.6 + sectionIndex * 0.1 + itemIndex * 0.05,
+                      }}
                     >
                       {item.action ? (
                         <motion.button
@@ -271,13 +282,14 @@ const Footer = () => {
                           {item.label}
                         </motion.button>
                       ) : (
-                        <motion.a
-                          href={item.href}
-                          whileHover={{ x: 5, color: "#60A5FA" }}
-                          className="text-gray-400 hover:text-blue-400 transition-all duration-200 text-left block"
-                        >
-                          {item.label}
-                        </motion.a>
+                        <Link to={item.href}>
+                          <motion.div
+                            whileHover={{ x: 5, color: "#60A5FA" }}
+                            className="text-gray-400 hover:text-blue-400 transition-all duration-200 text-left block cursor-pointer"
+                          >
+                            {item.label}
+                          </motion.div>
+                        </Link>
                       )}
                     </motion.li>
                   ))}
@@ -296,16 +308,17 @@ const Footer = () => {
         >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <motion.h4 
+              <motion.h4
                 className="text-2xl font-bold text-white mb-4"
                 whileHover={{ scale: 1.02 }}
               >
                 🚀 Restez à la pointe de l'innovation
               </motion.h4>
               <p className="text-gray-400 mb-8">
-                Recevez nos dernières actualités, tips techniques et offres exclusives
+                Recevez nos dernières actualités, tips techniques et offres
+                exclusives
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <motion.input
                   whileFocus={{ scale: 1.02 }}
@@ -314,9 +327,9 @@ const Footer = () => {
                   className="flex-1 px-6 py-3 bg-slate-800/50 backdrop-blur-xl border border-slate-600/50 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
                 />
                 <motion.button
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
-                    boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)"
+                    boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)",
                   }}
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-full hover:shadow-lg transition-all duration-300"
@@ -338,39 +351,38 @@ const Footer = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="flex flex-col md:flex-row items-center gap-4 text-gray-400">
-                <span>© {new Date().getFullYear()} DevFlow – Tous droits réservés</span>
+                <span>
+                  © {new Date().getFullYear()} DevFlow – Tous droits réservés
+                </span>
                 <div className="flex gap-4 text-sm">
-                  <motion.a 
-                    href="/mentions-legales" 
+                  <motion.div
                     whileHover={{ color: "#60A5FA" }}
-                    className="hover:text-blue-400 transition-colors"
+                    className="hover:text-blue-400 transition-colors cursor-pointer"
                   >
-                    Mentions légales
-                  </motion.a>
-                  <motion.a 
-                    href="/confidentialite" 
+                    <Link to="/mentions-legales">Mentions légales</Link>
+                  </motion.div>
+                  <motion.div
                     whileHover={{ color: "#60A5FA" }}
-                    className="hover:text-blue-400 transition-colors"
+                    className="hover:text-blue-400 transition-colors cursor-pointer"
                   >
-                    Confidentialité
-                  </motion.a>
-                  <motion.a 
-                    href="/cgv" 
+                    <Link to="/confidentialite">Confidentialité</Link>
+                  </motion.div>
+                  <motion.div
                     whileHover={{ color: "#60A5FA" }}
-                    className="hover:text-blue-400 transition-colors"
+                    className="hover:text-blue-400 transition-colors cursor-pointer"
                   >
-                    CGV
-                  </motion.a>
+                    <Link to="/cgv">CGV</Link>
+                  </motion.div>
                 </div>
               </div>
 
               {/* Back to Top Button */}
               <motion.button
                 onClick={scrollToTop}
-                whileHover={{ 
-                  scale: 1.1, 
+                whileHover={{
+                  scale: 1.1,
                   rotate: -5,
-                  boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)"
+                  boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)",
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full flex items-center justify-center text-white shadow-lg overflow-hidden"
