@@ -365,7 +365,7 @@ const CGV = () => {
                 className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 hover:shadow-lg transition-shadow"
               >
                 <h3 className="text-lg font-bold text-gray-800 mb-2">{item.service}</h3>
-                <div className="text-xl font-bold text-blue-600 mb-2">À partir de {item.startingPrice}</div>
+                <div className="text-base lg:text-xl  font-bold text-blue-600 mb-2">À partir de {item.startingPrice}</div>
                 <div className="text-sm text-gray-500 mb-4">Livraison : {item.timeline}</div>
                 
                 <ul className="space-y-2">
