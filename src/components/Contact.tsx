@@ -1,10 +1,17 @@
-import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useState } from "react";
+
+// Ajout de la déclaration pour window.gtag
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
 
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   type FormData = {
     name: string;
     email: string;
@@ -17,24 +24,33 @@ const Contact = () => {
 
   type FormErrors = Partial<Record<keyof FormData, string>>;
 
-  const [formData, setFormData] = useState<FormData>({ name: '', email: '', message: '', budget: '', timeline: '', company: '', phone: '' });
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    message: "",
+    budget: "",
+    timeline: "",
+    company: "",
+    phone: "",
+  });
   const [focusedField, setFocusedField] = useState<keyof FormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-  
+
   const validateForm = () => {
     const errors: FormErrors = {};
-    if (!formData.name.trim()) errors.name = 'Le nom est requis';
-    if (!formData.email.trim()) errors.email = 'L\'email est requis';
-    if (!formData.email.includes('@')) errors.email = 'Email invalide';
-    if (!formData.message.trim()) errors.message = 'Le message est requis';
-    if (formData.message.length < 10) errors.message = 'Message trop court (min. 10 caractères)';
-    
+    if (!formData.name.trim()) errors.name = "Le nom est requis";
+    if (!formData.email.trim()) errors.email = "L'email est requis";
+    if (!formData.email.includes("@")) errors.email = "Email invalide";
+    if (!formData.message.trim()) errors.message = "Le message est requis";
+    if (formData.message.length < 10)
+      errors.message = "Message trop court (min. 10 caractères)";
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
+
   // Declare motion values for interactive effects
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -44,12 +60,12 @@ const Contact = () => {
   // Mouse move handler for interactive effects (disabled on mobile)
   const handleMouseMove = (e) => {
     if (window.innerWidth < 768) return; // Disable on mobile
-    
+
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const x = (e.clientX - centerX) / 50;
     const y = (e.clientY - centerY) / 50;
-  
+
     mouseX.set(e.clientX);
     mouseY.set(e.clientY);
     rotateX.set(-y);
@@ -58,89 +74,152 @@ const Contact = () => {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
     setFormErrors({});
-    
+
     try {
-      // Simulation d'envoi
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '', budget: '', timeline: '', company: '', phone: '' });
+      console.log("📤 Envoi du message de contact...", formData);
+
+      const response = await fetch(
+        `${
+          process.env.REACT_APP_API_URL || "http://localhost:5000"
+        }/api/contact/send`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      console.log("📥 Réponse API:", data);
+
+      if (response.ok && data.success) {
+        setSubmitStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+          budget: "",
+          timeline: "",
+          company: "",
+          phone: "",
+        });
+
+        console.log("✅ Message envoyé avec succès");
+
+        // Analytics/tracking optionnel
+        if (window.gtag) {
+          window.gtag("event", "form_submit", {
+            event_category: "Contact",
+            event_label: "Contact Form",
+          });
+        }
+      } else {
+        // Gestion des erreurs spécifiques
+        if (data.errors && Array.isArray(data.errors)) {
+          // Erreurs de validation
+          const errorMap = {};
+          data.errors.forEach((error) => {
+            errorMap[error.field] = error.message;
+          });
+          setFormErrors(errorMap);
+
+          console.warn("⚠️ Erreurs de validation:", data.errors);
+        } else {
+          setSubmitStatus("error");
+          console.error("❌ Erreur serveur:", data.message);
+        }
+      }
     } catch (error) {
-      setSubmitStatus('error');
+      setSubmitStatus("error");
+      console.error("❌ Erreur réseau:", error);
+
+      // Fallback pour contact direct en cas d'erreur
+      if (error.name === "TypeError" && error.message.includes("fetch")) {
+        console.log("🔄 Tentative de fallback...");
+        // Optionnel : rediriger vers WhatsApp ou email direct
+      }
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
+
+      // Auto-clear du status après 5 secondes
+      setTimeout(() => {
+        setSubmitStatus(null);
+        setFormErrors({});
+      }, 5000);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
+
     // Clear error when user starts typing
     if (formErrors[name]) {
-      setFormErrors({ ...formErrors, [name]: '' });
+      setFormErrors({ ...formErrors, [name]: "" });
     }
   };
 
   const budgetOptions = [
-    { value: '2k-5k', label: '2k - 5k €' },
-    { value: '5k-10k', label: '5k - 10k €' },
-    { value: '10k-25k', label: '10k - 25k €' },
-    { value: '25k-50k', label: '25k - 50k €' },
-    { value: '50k+', label: '50k+ €' }
+    { value: "2k-5k", label: "2k - 5k €" },
+    { value: "5k-10k", label: "5k - 10k €" },
+    { value: "10k-25k", label: "10k - 25k €" },
+    { value: "25k-50k", label: "25k - 50k €" },
+    { value: "50k+", label: "50k+ €" },
   ];
 
   const timelineOptions = [
-    { value: 'asap', label: 'Dès que possible' },
-    { value: '1month', label: '1 mois' },
-    { value: '2-3months', label: '2-3 mois' },
-    { value: '3-6months', label: '3-6 mois' },
-    { value: '6months+', label: '6+ mois' }
+    { value: "asap", label: "Dès que possible" },
+    { value: "1month", label: "1 mois" },
+    { value: "2-3months", label: "2-3 mois" },
+    { value: "3-6months", label: "3-6 mois" },
+    { value: "6months+", label: "6+ mois" },
   ];
 
   const contactInfo = [
     {
-      icon: '📍',
-      title: 'Localisation',
-      value: 'HLM Fass, Dakar, Sénégal',
-      subValue: 'Afrique de l\'Ouest',
-      gradient: 'from-emerald-600 to-teal-600',
-      action: 'Voir sur la carte'
+      icon: "📍",
+      title: "Localisation",
+      value: "HLM Fass, Dakar, Sénégal",
+      subValue: "Afrique de l'Ouest",
+      gradient: "from-emerald-600 to-teal-600",
+      action: "Voir sur la carte",
     },
     {
-      icon: '📞',
-      title: 'Téléphone',
-      value: '+221 77 715 10 61',
-      subValue: 'Disponible 9h-18h WAT',
-      gradient: 'from-blue-600 to-cyan-600',
-      action: 'Appeler maintenant'
+      icon: "📞",
+      title: "Téléphone",
+      value: "+221 77 715 10 61",
+      subValue: "Disponible 9h-18h WAT",
+      gradient: "from-blue-600 to-cyan-600",
+      action: "Appeler maintenant",
     },
     {
-      icon: '✉️',
-      title: 'Email',
-      value: 'souleymanefall176@gmail.com',
-      subValue: 'Réponse sous 2h',
-      gradient: 'from-purple-600 to-violet-600',
-      action: 'Envoyer un email'
+      icon: "✉️",
+      title: "Email",
+      value: "souleymanefall176@gmail.com",
+      subValue: "Réponse sous 2h",
+      gradient: "from-purple-600 to-violet-600",
+      action: "Envoyer un email",
     },
     {
-      icon: '💬',
-      title: 'WhatsApp',
-      value: '+221 77 715 10 61',
-      subValue: 'Chat en temps réel',
-      gradient: 'from-green-600 to-emerald-600',
-      action: 'Ouvrir WhatsApp'
-    }
+      icon: "💬",
+      title: "WhatsApp",
+      value: "+221 77 715 10 61",
+      subValue: "Chat en temps réel",
+      gradient: "from-green-600 to-emerald-600",
+      action: "Ouvrir WhatsApp",
+    },
   ];
 
   return (
-    <section 
-      id="contact" 
-      className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white relative overflow-hidden" 
+    <section
+      id="contact"
+      className="py-16 sm:py-20 md:py-24 lg:py-32 bg-white relative overflow-hidden"
       ref={ref}
       onMouseMove={handleMouseMove}
     >
@@ -154,7 +233,7 @@ const Contact = () => {
           }}
           transition={{ duration: 20, repeat: Infinity }}
         />
-        
+
         <motion.div
           className="absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gradient-to-r from-emerald-100/30 to-cyan-100/30 rounded-full filter blur-3xl"
           animate={{
@@ -163,15 +242,15 @@ const Contact = () => {
           }}
           transition={{ duration: 25, repeat: Infinity }}
         />
-        
+
         {/* Interactive cursor glow - hidden on mobile */}
         <motion.div
           className="absolute pointer-events-none w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gradient-to-r from-cyan-200/20 to-blue-200/20 rounded-full filter blur-3xl hidden md:block"
           style={{
             x: mouseX,
             y: mouseY,
-            translateX: '-50%',
-            translateY: '-50%',
+            translateX: "-50%",
+            translateY: "-50%",
           }}
         />
 
@@ -187,22 +266,25 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black bg-gradient-to-r from-gray-900 via-blue-700 to-purple-700 bg-clip-text text-transparent mb-6 sm:mb-8 leading-tight"
             style={{ rotateX, rotateY }}
             whileHover={{ scale: 1.02 }}
           >
             Créons Ensemble
           </motion.h2>
-          
+
           <motion.p
             className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-2xl lg:max-w-4xl mx-auto leading-relaxed mb-6 sm:mb-8 px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Transformons votre vision en réalité digitale avec 
-            <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-semibold"> l'innovation comme moteur</span>
+            Transformons votre vision en réalité digitale avec
+            <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-semibold">
+              {" "}
+              l'innovation comme moteur
+            </span>
           </motion.p>
 
           {/* Trust indicators */}
@@ -246,7 +328,7 @@ const Contact = () => {
               />
 
               <div className="relative z-10 space-y-4 sm:space-y-6">
-                <motion.div 
+                <motion.div
                   className="text-center mb-6 sm:mb-8"
                   whileHover={{ scale: 1.02 }}
                 >
@@ -258,9 +340,13 @@ const Contact = () => {
                     >
                       🚀
                     </motion.span>
-                    <span className="leading-tight">Démarrons votre projet</span>
+                    <span className="leading-tight">
+                      Démarrons votre projet
+                    </span>
                   </h3>
-                  <p className="text-gray-600 text-sm sm:text-base">Partagez votre vision, nous la réalisons</p>
+                  <p className="text-gray-600 text-sm sm:text-base">
+                    Partagez votre vision, nous la réalisons
+                  </p>
                 </motion.div>
 
                 {/* Name & Company */}
@@ -271,16 +357,16 @@ const Contact = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      onFocus={() => setFocusedField('name')}
+                      onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.name 
-                          ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                        formErrors.name
+                          ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                          : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="Votre nom complet *"
                     />
-                    {focusedField === 'name' && !formErrors.name && (
+                    {focusedField === "name" && !formErrors.name && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
@@ -304,16 +390,16 @@ const Contact = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      onFocus={() => setFocusedField('company')}
+                      onFocus={() => setFocusedField("company")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.company 
-                          ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                        formErrors.company
+                          ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                          : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="Votre entreprise"
                     />
-                    {focusedField === 'company' && !formErrors.company && (
+                    {focusedField === "company" && !formErrors.company && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
@@ -340,16 +426,16 @@ const Contact = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      onFocus={() => setFocusedField('email')}
+                      onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.email 
-                          ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                        formErrors.email
+                          ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                          : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="votre@email.com *"
                     />
-                    {focusedField === 'email' && !formErrors.email && (
+                    {focusedField === "email" && !formErrors.email && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
@@ -373,16 +459,16 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      onFocus={() => setFocusedField('phone')}
+                      onFocus={() => setFocusedField("phone")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.phone 
-                          ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-                          : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                        formErrors.phone
+                          ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                          : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="Votre téléphone"
                     />
-                    {focusedField === 'phone' && !formErrors.phone && (
+                    {focusedField === "phone" && !formErrors.phone && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
@@ -409,23 +495,35 @@ const Contact = () => {
                     onChange={handleChange}
                     className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border border-gray-200 rounded-xl sm:rounded-2xl text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 text-sm sm:text-base"
                   >
-                    <option value="" className="bg-white">💰 Budget estimé</option>
-                    {budgetOptions.map(option => (
-                      <option key={option.value} value={option.value} className="bg-white">
+                    <option value="" className="bg-white">
+                      💰 Budget estimé
+                    </option>
+                    {budgetOptions.map((option) => (
+                      <option
+                        key={option.value}
+                        value={option.value}
+                        className="bg-white"
+                      >
                         {option.label}
                       </option>
                     ))}
                   </motion.select>
-                  
+
                   <motion.select
                     name="timeline"
                     value={formData.timeline}
                     onChange={handleChange}
                     className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border border-gray-200 rounded-xl sm:rounded-2xl text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 text-sm sm:text-base"
                   >
-                    <option value="" className="bg-white">⏱️ Délai souhaité</option>
-                    {timelineOptions.map(option => (
-                      <option key={option.value} value={option.value} className="bg-white">
+                    <option value="" className="bg-white">
+                      ⏱️ Délai souhaité
+                    </option>
+                    {timelineOptions.map((option) => (
+                      <option
+                        key={option.value}
+                        value={option.value}
+                        className="bg-white"
+                      >
                         {option.label}
                       </option>
                     ))}
@@ -438,18 +536,18 @@ const Contact = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    onFocus={() => setFocusedField('message')}
+                    onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 resize-none text-sm sm:text-base ${
                       formErrors.message
-                        ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200'
-                        : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                        ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                        : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                     }`}
                     placeholder="💭 Décrivez votre projet en détail (objectifs, fonctionnalités, cible...) *"
                     required
                     rows={5}
                   />
-                  {focusedField === 'message' && !formErrors.message && (
+                  {focusedField === "message" && !formErrors.message && (
                     <motion.div
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
@@ -481,14 +579,18 @@ const Contact = () => {
                     whileHover={{ x: "0%" }}
                     transition={{ duration: 0.5 }}
                   />
-                  
+
                   <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
                     {isSubmitting ? (
                       <>
                         <motion.div
                           className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white/30 border-t-white rounded-full"
                           animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
                         />
                         Envoi en cours...
                       </>
@@ -507,19 +609,20 @@ const Contact = () => {
                 </motion.button>
 
                 {/* Status Messages */}
-                {submitStatus === 'success' && (
+                {submitStatus === "success" && (
                   <motion.div
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     className="text-center p-3 sm:p-4 bg-emerald-50 border border-emerald-200 rounded-xl sm:rounded-2xl"
                   >
                     <span className="text-emerald-600 font-medium text-sm sm:text-base">
-                      ✅ Message envoyé avec succès ! Nous vous répondrons sous 2h.
+                      ✅ Message envoyé avec succès ! Nous vous répondrons sous
+                      2h.
                     </span>
                   </motion.div>
                 )}
 
-                {submitStatus === 'error' && (
+                {submitStatus === "error" && (
                   <motion.div
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -555,7 +658,7 @@ const Contact = () => {
                   <motion.div
                     className={`absolute inset-0 bg-gradient-to-r ${info.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
                   />
-                  
+
                   <div className="relative z-10 flex items-center justify-between">
                     <div className="flex items-center gap-3 sm:gap-4">
                       <motion.div
@@ -564,14 +667,18 @@ const Contact = () => {
                       >
                         {info.icon}
                       </motion.div>
-                      
+
                       <div>
-                        <h4 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">{info.title}</h4>
-                        <p className="text-gray-700 font-medium text-xs sm:text-sm break-all">{info.value}</p>
+                        <h4 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">
+                          {info.title}
+                        </h4>
+                        <p className="text-gray-700 font-medium text-xs sm:text-sm break-all">
+                          {info.value}
+                        </p>
                         <p className="text-gray-500 text-xs">{info.subValue}</p>
                       </div>
                     </div>
-                    
+
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -595,13 +702,33 @@ const Contact = () => {
                 <span>🌟</span>
                 Suivez-nous
               </h4>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 {[
-                  { icon: '💼', label: 'LinkedIn', gradient: 'from-blue-600 to-blue-700', handle: '@datanexa' },
-                  { icon: '🐱', label: 'GitHub', gradient: 'from-gray-700 to-gray-800', handle: '@datanexa' },
-                  { icon: '🐦', label: 'Twitter', gradient: 'from-sky-500 to-sky-600', handle: '@datanexa' },
-                  { icon: '📱', label: 'WhatsApp', gradient: 'from-green-600 to-green-700', handle: 'Chat direct' }
+                  {
+                    icon: "💼",
+                    label: "LinkedIn",
+                    gradient: "from-blue-600 to-blue-700",
+                    handle: "@datanexa",
+                  },
+                  {
+                    icon: "🐱",
+                    label: "GitHub",
+                    gradient: "from-gray-700 to-gray-800",
+                    handle: "@datanexa",
+                  },
+                  {
+                    icon: "🐦",
+                    label: "Twitter",
+                    gradient: "from-sky-500 to-sky-600",
+                    handle: "@datanexa",
+                  },
+                  {
+                    icon: "📱",
+                    label: "WhatsApp",
+                    gradient: "from-green-600 to-green-700",
+                    handle: "Chat direct",
+                  },
                 ].map((social, index) => (
                   <motion.a
                     key={social.label}
@@ -612,7 +739,9 @@ const Contact = () => {
                   >
                     <span className="text-base sm:text-lg">{social.icon}</span>
                     <div>
-                      <div className="font-semibold text-xs sm:text-sm">{social.label}</div>
+                      <div className="font-semibold text-xs sm:text-sm">
+                        {social.label}
+                      </div>
                       <div className="text-xs opacity-80">{social.handle}</div>
                     </div>
                   </motion.a>
@@ -633,21 +762,45 @@ const Contact = () => {
               </h4>
               <div className="space-y-3 sm:space-y-4">
                 {[
-                  { label: 'Première réponse', value: '< 2h', color: 'text-emerald-600', icon: '💬' },
-                  { label: 'Devis personnalisé', value: '< 24h', color: 'text-blue-600', icon: '📊' },
-                  { label: 'Démarrage projet', value: '< 1 semaine', color: 'text-purple-600', icon: '🚀' },
-                  { label: 'Support technique', value: '24/7', color: 'text-orange-600', icon: '🛠️' }
+                  {
+                    label: "Première réponse",
+                    value: "< 2h",
+                    color: "text-emerald-600",
+                    icon: "💬",
+                  },
+                  {
+                    label: "Devis personnalisé",
+                    value: "< 24h",
+                    color: "text-blue-600",
+                    icon: "📊",
+                  },
+                  {
+                    label: "Démarrage projet",
+                    value: "< 1 semaine",
+                    color: "text-purple-600",
+                    icon: "🚀",
+                  },
+                  {
+                    label: "Support technique",
+                    value: "24/7",
+                    color: "text-orange-600",
+                    icon: "🛠️",
+                  },
                 ].map((stat, index) => (
-                  <motion.div 
-                    key={stat.label} 
+                  <motion.div
+                    key={stat.label}
                     className="flex justify-between items-center p-2 sm:p-3 bg-gray-50 rounded-lg"
-                    whileHover={{ backgroundColor: 'rgb(243 244 246)' }}
+                    whileHover={{ backgroundColor: "rgb(243 244 246)" }}
                   >
                     <span className="text-gray-700 flex items-center gap-2 text-xs sm:text-sm">
                       <span className="text-sm sm:text-base">{stat.icon}</span>
                       {stat.label}
                     </span>
-                    <span className={`font-bold text-xs sm:text-sm ${stat.color}`}>{stat.value}</span>
+                    <span
+                      className={`font-bold text-xs sm:text-sm ${stat.color}`}
+                    >
+                      {stat.value}
+                    </span>
                   </motion.div>
                 ))}
               </div>
@@ -660,9 +813,12 @@ const Contact = () => {
               transition={{ delay: 1.4 }}
               className="lg:hidden bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white"
             >
-              <h4 className="text-lg sm:text-xl font-bold mb-2">Prêt à commencer ?</h4>
+              <h4 className="text-lg sm:text-xl font-bold mb-2">
+                Prêt à commencer ?
+              </h4>
               <p className="text-sm sm:text-base mb-4 opacity-90">
-                Remplissez le formulaire ci-dessus ou contactez-nous directement !
+                Remplissez le formulaire ci-dessus ou contactez-nous directement
+                !
               </p>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <motion.a
@@ -694,14 +850,21 @@ const Contact = () => {
           className="mt-12 sm:mt-16 lg:mt-20 text-center lg:hidden"
         >
           <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
-            <h4 className="text-lg font-bold text-gray-900 mb-2">Basé à Dakar, Sénégal</h4>
+            <h4 className="text-lg font-bold text-gray-900 mb-2">
+              Basé à Dakar, Sénégal
+            </h4>
             <p className="text-sm text-gray-600 mb-4">
-              Nous servons des clients dans toute l'Afrique de l'Ouest et au-delà
+              Nous servons des clients dans toute l'Afrique de l'Ouest et
+              au-delà
             </p>
             <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-500">
-              <span className="bg-white px-3 py-1 rounded-full">🌍 International</span>
+              <span className="bg-white px-3 py-1 rounded-full">
+                🌍 International
+              </span>
               <span className="bg-white px-3 py-1 rounded-full">🇸🇳 Local</span>
-              <span className="bg-white px-3 py-1 rounded-full">💬 Français/English</span>
+              <span className="bg-white px-3 py-1 rounded-full">
+                💬 Français/English
+              </span>
             </div>
           </div>
         </motion.div>

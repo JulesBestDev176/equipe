@@ -1,8 +1,77 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState(null);
+  const [isSubmittingNewsletter, setIsSubmittingNewsletter] = useState(false);
+
+
+  const handleNewsletterSubmit = async (e) => {
+  e.preventDefault();
+  
+  // Validation côté client
+  if (!newsletterEmail || !newsletterEmail.includes('@')) {
+    setNewsletterStatus('error');
+    console.warn('⚠️ Email newsletter invalide');
+    return;
+  }
+
+  setIsSubmittingNewsletter(true);
+  
+  try {
+    console.log('📧 Abonnement newsletter...', newsletterEmail);
+    
+    const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/newsletter/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ email: newsletterEmail }),
+    });
+
+    const data = await response.json();
+    console.log('📥 Réponse newsletter:', data);
+
+    if (response.ok && data.success) {
+      setNewsletterStatus('success');
+      setNewsletterEmail('');
+      
+      console.log('✅ Abonnement newsletter réussi');
+      
+      // Analytics/tracking optionnel
+      if (window.gtag) {
+        window.gtag('event', 'newsletter_signup', {
+          event_category: 'Newsletter',
+          event_label: 'Footer Signup'
+        });
+      }
+    } else {
+      // Gestion des erreurs spécifiques
+      if (response.status === 409) {
+        // Email déjà abonné
+        setNewsletterStatus('already_subscribed');
+        console.log('ℹ️ Email déjà abonné');
+      } else {
+        setNewsletterStatus('error');
+        console.error('❌ Erreur newsletter:', data.message);
+      }
+    }
+  } catch (error) {
+    setNewsletterStatus('error');
+    console.error('❌ Erreur réseau newsletter:', error);
+  } finally {
+    setIsSubmittingNewsletter(false);
+    
+    // Auto-clear du status après 5 secondes
+    setTimeout(() => {
+      setNewsletterStatus(null);
+    }, 5000);
+  }
+};
+
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -320,22 +389,83 @@ const Footer = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <motion.input
-                  whileFocus={{ scale: 1.02 }}
-                  type="email"
-                  placeholder="votre@email.com"
-                  className="flex-1 px-6 py-3 bg-slate-800/50 backdrop-blur-xl border border-slate-600/50 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
-                />
-                <motion.button
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 10px 25px rgba(59, 130, 246, 0.3)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-full hover:shadow-lg transition-all duration-300"
-                >
-                  S'abonner
-                </motion.button>
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+  <motion.input
+    whileFocus={{ scale: 1.02 }}
+    type="email"
+    value={newsletterEmail}
+    onChange={(e) => setNewsletterEmail(e.target.value)}
+    placeholder="votre@email.com"
+    required
+    disabled={isSubmittingNewsletter}
+    className={`flex-1 px-6 py-3 bg-slate-800/50 backdrop-blur-xl border border-slate-600/50 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 ${
+      isSubmittingNewsletter ? 'opacity-70 cursor-not-allowed' : ''
+    }`}
+  />
+  <motion.button
+    type="submit"
+    disabled={isSubmittingNewsletter || !newsletterEmail}
+    whileHover={{
+      scale: (!isSubmittingNewsletter && newsletterEmail) ? 1.05 : 1,
+      boxShadow: (!isSubmittingNewsletter && newsletterEmail) ? "0 10px 25px rgba(59, 130, 246, 0.3)" : "none",
+    }}
+    whileTap={{ scale: 0.95 }}
+    className={`px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-full transition-all duration-300 ${
+      isSubmittingNewsletter || !newsletterEmail 
+        ? 'opacity-70 cursor-not-allowed' 
+        : 'hover:shadow-lg'
+    }`}
+  >
+    {isSubmittingNewsletter ? (
+      <span className="flex items-center gap-2">
+        <motion.div
+          className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        />
+        Abonnement...
+      </span>
+    ) : (
+      'S\'abonner'
+    )}
+  </motion.button>
+</form>
+{/* Messages de statut newsletter */}
+{newsletterStatus === 'success' && (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="text-center mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg"
+  >
+    <span className="text-green-400 flex items-center justify-center gap-2">
+      ✅ <span>Abonnement réussi ! Vérifiez votre email de confirmation.</span>
+    </span>
+  </motion.div>
+)}
+
+{newsletterStatus === 'already_subscribed' && (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="text-center mt-4 p-3 bg-yellow-500/20 border border-yellow-500/30 rounded-lg"
+  >
+    <span className="text-yellow-400 flex items-center justify-center gap-2">
+      ℹ️ <span>Cet email est déjà abonné à notre newsletter.</span>
+    </span>
+  </motion.div>
+)}
+
+{newsletterStatus === 'error' && (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="text-center mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg"
+  >
+    <span className="text-red-400 flex items-center justify-center gap-2">
+      ❌ <span>Erreur lors de l'abonnement. Veuillez réessayer.</span>
+    </span>
+  </motion.div>
+)}
               </div>
             </div>
           </div>

@@ -11,6 +11,8 @@ import Support from "./components/Support";
 import MentionsLegales from "./components/MentionsLegales";
 import Confidentialite from "./components/Confidentialite";
 import CGV from "./components/CGV";
+import AgentIAPage from "./components/AgentIAPage";
+import SiteVitrinePage from "./components/SiteVitrinePage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/mentions-legales" element={<MentionsLegales />} />
           <Route path="/confidentialite" element={<Confidentialite />} />
           <Route path="/cgv" element={<CGV />} />
+          <Route path="/automatisation" element={<AgentIAPage />} />
+          <Route path="/site-web" element={<SiteVitrinePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

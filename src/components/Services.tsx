@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   const ref = useRef(null);
@@ -10,62 +11,57 @@ const Services = () => {
       id: 1,
       title: "Agent IA & Automatisation",
       description:
-        "Contrôlez vos actions quotidiennes (emails, agenda, messages WhatsApp, etc.) grâce à un agent intelligent qui automatise pour vous.",
+        "Un assistant intelligent qui répond à vos clients, prend les commandes et gère votre business pendant que vous vous reposez. Tout se passe sur WhatsApp.",
       icon: "🤖",
       gradient: "from-blue-500 via-blue-600 to-indigo-700",
       bgGradient: "from-blue-50 to-indigo-50",
       features: [
+        "Réceptionniste virtuelle 24h/24",
+        "Prospection automatique de clients",
         "Commandes vocales WhatsApp",
         "Envoi automatique d'emails",
         "Programmation de rendez-vous",
       ],
       color: "blue",
       accentColor: "bg-blue-500",
+      link: '/automatisation',
     },
     {
       id: 2,
-      title: "Site Web Vitrine",
+      title: "Solutions Web Professionnelles",
       description:
-        "Présentez votre activité en ligne avec un site clair, moderne et adapté à tous les écrans, pour gagner en visibilité et attirer plus de clients.",
+        "Des sites web modernes et responsive pour faire grandir votre business. Du simple site vitrine au e-commerce complet, nous créons la solution parfaite.",
       icon: "🌐",
       gradient: "from-emerald-500 via-emerald-600 to-teal-700",
       bgGradient: "from-emerald-50 to-teal-50",
-      features: ["Adapté mobile", "Visibilité sur Google", "Navigation simple"],
+      features: [
+        "Code optimisé & technologies modernes", 
+        "SEO intégré & référencement naturel", 
+        "Design sur mesure unique",
+        "Sécurisé avec protection avancée"
+      ],
       color: "emerald",
       accentColor: "bg-emerald-500",
+      link: '/site-web',
     },
     {
       id: 3,
-      title: "Applications Web sur Mesure",
+      title: "Applications Web",
       description:
-        "Gérez facilement votre activité en ligne grâce à des outils personnalisés, simples à utiliser et pensés pour vos besoins.",
+        "Gérez facilement votre activité en ligne grâce à des outils personnalisés, simples à utiliser et pensés pour vos besoins spécifiques.",
       icon: "💻",
       gradient: "from-purple-500 via-purple-600 to-violet-700",
       bgGradient: "from-purple-50 to-violet-50",
       features: [
-        "Utilisation facile",
-        "Fonctionnalités adaptées",
+        "Interfaces utilisateur intuitives",
+        "Fonctionnalités sur mesure",
         "Données sécurisées",
+        "Évolutivité garantie"
       ],
       color: "purple",
       accentColor: "bg-purple-500",
-    },
-    {
-      id: 4,
-      title: "Boutique en Ligne",
-      description:
-        "Vendez facilement vos produits sur Internet avec une boutique claire, sécurisée et simple à gérer.",
-      icon: "🛒",
-      gradient: "from-orange-500 via-red-500 to-pink-600",
-      bgGradient: "from-orange-50 to-pink-50",
-      features: [
-        "Paiement en ligne",
-        "Suivi des stocks",
-        "Statistiques de ventes",
-      ],
-      color: "orange",
-      accentColor: "bg-orange-500",
-    },
+      link: '/application-web',
+    }
   ];
 
   const stats = [
@@ -135,7 +131,7 @@ const Services = () => {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-20">
+        <div className="grid lg:grid-cols-3 gap-8 mb-20">
           {services.map((service, index) => (
             <motion.div
               key={service.id}
@@ -178,14 +174,14 @@ const Services = () => {
 
               {/* Card */}
               <div
-                className={`relative bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-lg group-hover:shadow-2xl transition-all duration-500`}
+                className={`relative bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-lg group-hover:shadow-2xl transition-all duration-500 h-full`}
               >
-                {/* Gradient Border Effect - reduced opacity */}
+                {/* Gradient Border Effect */}
                 <div
                   className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-sm`}
                 />
 
-                {/* Top Accent Line with animation */}
+                {/* Top Accent Line */}
                 <motion.div
                   className={`absolute top-0 left-8 right-8 h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
                   initial={{ scaleX: 0 }}
@@ -195,7 +191,7 @@ const Services = () => {
                 />
 
                 {/* Content */}
-                <div className="relative z-10">
+                <div className="relative z-10 h-full flex flex-col">
                   {/* Icon and Title */}
                   <div className="flex items-start gap-4 mb-6">
                     <motion.div
@@ -239,7 +235,7 @@ const Services = () => {
 
                   {/* Description */}
                   <motion.p
-                    className="text-gray-600 leading-relaxed mb-6"
+                    className="text-gray-600 leading-relaxed mb-6 flex-grow"
                     initial={{ opacity: 0, y: 10 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: index * 0.15 + 0.4 }}
@@ -286,27 +282,24 @@ const Services = () => {
                   </div>
 
                   {/* CTA Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() =>
-                      document
-                        .getElementById("contact")
-                        ?.scrollIntoView({ behavior: "smooth" })
-                    }
-                    className={`w-full py-4 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: index * 0.15 + 0.8 }}
-                  >
-                    <span className="relative z-10">Découvrir ce service</span>
-                    <motion.div
-                      className="absolute inset-0 bg-white/15"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                  </motion.button>
+                  <Link to={service.link} className="block mt-auto">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full py-4 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={isInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ delay: index * 0.15 + 0.8 }}
+                    >
+                      <span className="relative z-10">Découvrir ce service</span>
+                      <motion.div
+                        className="absolute inset-0 bg-white/15"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "100%" }}
+                        transition={{ duration: 0.6 }}
+                      />
+                    </motion.button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
@@ -353,7 +346,7 @@ const Services = () => {
             Pourquoi choisir
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {" "}
-              DevFlow
+              JulesDev
             </span>{" "}
             ?
           </motion.h3>
