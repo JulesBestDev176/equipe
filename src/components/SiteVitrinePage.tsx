@@ -669,7 +669,7 @@ const SiteVitrinePage = () => {
                 >
                   📧
                 </motion.span>
-                contact@julesdev.sn
+                contact@devflow.sn
               </p>
               <p className="text-blue-200 text-sm mt-4">
                 🚀 Livraison en 7-14 jours • 💰 Devis gratuit • 🛡️ Garantie satisfaction
