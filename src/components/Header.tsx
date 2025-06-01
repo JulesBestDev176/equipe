@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Hook pour le scroll progress
   const { scrollYProgress } = useScroll();
@@ -20,53 +23,78 @@ const Header = () => {
       const scrollY = window.scrollY;
       setIsScrolled(scrollY > 50);
 
-      // Detection de la section active
-      const sections = ["accueil", "services", "equipe", "projets", "contact"];
-      const scrollPosition = scrollY + 150;
+      // Detection de la section active seulement sur la page d'accueil
+      if (location.pathname === "/") {
+        const sections = ["accueil", "services", "equipe", "projets", "contact"];
+        const scrollPosition = scrollY + 150;
 
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetBottom = offsetTop + element.offsetHeight;
+        for (const section of sections) {
+          const element = document.getElementById(section);
+          if (element) {
+            const offsetTop = element.offsetTop;
+            const offsetBottom = offsetTop + element.offsetHeight;
 
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(section);
-            break;
+            if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
+      } else {
+        setActiveSection("");
       }
     };
 
     handleScroll(); // Appel initial
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerHeight = 80;
-      const elementPosition = element.offsetTop - headerHeight;
+    // Si on est déjà sur la page d'accueil
+    if (location.pathname === "/") {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerHeight = 80;
+        const elementPosition = element.offsetTop - headerHeight;
 
-      window.scrollTo({
-        top: elementPosition,
-        behavior: "smooth",
-      });
+        window.scrollTo({
+          top: elementPosition,
+          behavior: "smooth",
+        });
+      }
+    } else {
+      // Si on est sur une autre page, rediriger vers l'accueil avec le hash
+      navigate(`/#${sectionId}`);
     }
     setIsMobileMenuOpen(false);
   };
 
+  // Gérer la navigation avec hash au chargement de la page
+  useEffect(() => {
+    if (location.pathname === "/" && location.hash) {
+      const sectionId = location.hash.slice(1); // Enlever le #
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerHeight = 80;
+          const elementPosition = element.offsetTop - headerHeight;
+          window.scrollTo({
+            top: elementPosition,
+            behavior: "smooth",
+          });
+        }
+      }, 100); // Petit délai pour s'assurer que la page est chargée
+    }
+  }, [location]);
+
   const navItems = [
     { id: "accueil", label: "Accueil", icon: "🏠" },
     { id: "services", label: "Services", icon: "⚡" },
-    // { id: 'tarifs', label: 'Tarifs', icon: '💰' },
     { id: "projets", label: "Projets", icon: "🚀" },
     { id: "equipe", label: "Équipe", icon: "👥" },
     { id: "contact", label: "Contact", icon: "📞" },
   ];
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -87,7 +115,7 @@ const Header = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="cursor-pointer group"
-              onClick={() => navigate("/")} // redirection vers /
+              onClick={() => navigate("/")}
             >
               <div className="relative">
                 {/* Glow effect */}
@@ -119,15 +147,9 @@ const Header = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index, duration: 0.5 }}
-                  onClick={() => {
-                    if (item.id === "accueil") {
-                      navigate("/");
-                    } else {
-                      scrollToSection(item.id);
-                    }
-                  }}
+                  onClick={() => scrollToSection(item.id)}
                   className={`relative px-4 py-2 rounded-xl font-medium transition-all duration-300 group ${
-                    activeSection === item.id
+                    activeSection === item.id && location.pathname === "/"
                       ? isScrolled
                         ? "text-blue-600 bg-blue-50"
                         : "text-cyan-400 bg-white/10"
@@ -139,7 +161,7 @@ const Header = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   {/* Background glow pour section active */}
-                  {activeSection === item.id && (
+                  {activeSection === item.id && location.pathname === "/" && (
                     <motion.div
                       layoutId="activeBackground"
                       className={`absolute inset-0 rounded-xl ${
@@ -157,12 +179,11 @@ const Header = () => {
                   )}
 
                   <span className="relative flex items-center gap-2">
-                    {/* <span className="text-sm">{item.icon}</span> */}
                     {item.label}
                   </span>
 
                   {/* Indicateur actif */}
-                  {activeSection === item.id && (
+                  {activeSection === item.id && location.pathname === "/" && (
                     <motion.div
                       layoutId="activeIndicator"
                       className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full ${
@@ -291,15 +312,9 @@ const Header = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        onClick={() => {
-                          if (item.id === "accueil") {
-                            navigate("/");
-                          } else {
-                            scrollToSection(item.id);
-                          }
-                        }}
+                        onClick={() => scrollToSection(item.id)}
                         className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center gap-3 ${
-                          activeSection === item.id
+                          activeSection === item.id && location.pathname === "/"
                             ? "bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-600 border border-blue-200"
                             : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                         }`}
@@ -308,7 +323,7 @@ const Header = () => {
                       >
                         <span className="text-lg">{item.icon}</span>
                         <span className="font-medium">{item.label}</span>
-                        {activeSection === item.id && (
+                        {activeSection === item.id && location.pathname === "/" && (
                           <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
