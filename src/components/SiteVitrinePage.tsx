@@ -361,8 +361,9 @@ const SiteVitrinePage = () => {
                   <h3 className="text-2xl font-bold text-gray-800 mb-4">{service.title}</h3>
                   <p className="text-gray-600 mb-6">{service.description}</p>
                   
+                  <span>À partir de</span>
                   <div className="text-3xl font-bold text-purple-600 mb-6">
-                    À partir de {service.price} FCFA
+                     {service.price} FCFA
                   </div>
                   
                   <ul className="space-y-3 mb-8">
