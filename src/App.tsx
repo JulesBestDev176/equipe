@@ -13,6 +13,7 @@ import Confidentialite from "./components/Confidentialite";
 import CGV from "./components/CGV";
 import AgentIAPage from "./components/AgentIAPage";
 import SiteVitrinePage from "./components/SiteVitrinePage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+      <ScrollToTop>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
@@ -35,6 +37,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </ScrollToTop>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
