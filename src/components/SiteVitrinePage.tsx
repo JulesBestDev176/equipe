@@ -362,7 +362,7 @@ const SiteVitrinePage = () => {
                   <p className="text-gray-600 mb-6">{service.description}</p>
                   
                   <div className="text-3xl font-bold text-purple-600 mb-6">
-                    {service.price} FCFA
+                    À partir de {service.price} FCFA
                   </div>
                   
                   <ul className="space-y-3 mb-8">
