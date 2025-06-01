@@ -13,6 +13,7 @@ import Confidentialite from "./pages/Confidentialite";
 import CGV from "./pages/CGV";
 import AgentIAPage from "./pages/AgentIAPage";
 import SiteVitrinePage from "./pages/SiteVitrinePage";
+import ApplicationsPage from "./pages/ApplicationsPage";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,8 @@ const App = () => (
           <Route path="/cgv" element={<CGV />} />
           <Route path="/automatisation" element={<AgentIAPage />} />
           <Route path="/site-web" element={<SiteVitrinePage />} />
+          <Route path="/applications" element={<ApplicationsPage />} />
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

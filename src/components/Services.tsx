@@ -35,9 +35,9 @@ const Services = () => {
       gradient: "from-emerald-500 via-emerald-600 to-teal-700",
       bgGradient: "from-emerald-50 to-teal-50",
       features: [
-        "Code optimisé & technologies modernes", 
+        "Sites vitrines & e-commerce", 
         "SEO intégré & référencement naturel", 
-        "Design sur mesure unique",
+        "Design responsive sur mesure",
         "Sécurisé avec protection avancée"
       ],
       color: "emerald",
@@ -46,21 +46,22 @@ const Services = () => {
     },
     {
       id: 3,
-      title: "Applications Web",
+      title: "Applications",
       description:
-        "Gérez facilement votre activité en ligne grâce à des outils personnalisés, simples à utiliser et pensés pour vos besoins spécifiques.",
+        "Des applications sur mesure pour tous vos besoins : web, mobile ou desktop. Solutions complètes adaptées à votre activité et vos utilisateurs.",
       icon: "💻",
       gradient: "from-purple-500 via-purple-600 to-violet-700",
       bgGradient: "from-purple-50 to-violet-50",
       features: [
-        "Interfaces utilisateur intuitives",
-        "Fonctionnalités sur mesure",
-        "Données sécurisées",
-        "Évolutivité garantie"
+        "Applications Web progressives (PWA)",
+        "Applications Mobile (iOS/Android)",
+        "Applications Desktop (Windows/Mac/Linux)",
+        "Interfaces utilisateur modernes",
+        "Synchronisation multi-plateforme"
       ],
       color: "purple",
       accentColor: "bg-purple-500",
-      link: '/application-web',
+      link: '/applications',
     }
   ];
 
@@ -130,180 +131,357 @@ const Services = () => {
           </p>
         </motion.div>
 
-        {/* Services Grid */}
+        {/* Services Grid - 3 services en ligne */}
         <div className="grid lg:grid-cols-3 gap-8 mb-20">
           {services.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 60, scale: 0.95 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{
-                duration: 0.7,
-                delay: index * 0.15,
-                type: "spring",
-                stiffness: 80,
-              }}
-              whileHover={{
-                y: -8,
-                transition: { duration: 0.3 },
-              }}
-              className="group relative"
-            >
-              {/* Floating particles effect */}
-              <div className="absolute inset-0 pointer-events-none">
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className={`absolute w-2 h-2 ${service.accentColor} rounded-full opacity-0 group-hover:opacity-30`}
-                    style={{
-                      left: `${20 + i * 30}%`,
-                      top: `${30 + i * 20}%`,
-                    }}
-                    animate={{
-                      y: [0, -20, 0],
-                      scale: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: i * 0.5,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Card */}
-              <div
-                className={`relative bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-lg group-hover:shadow-2xl transition-all duration-500 h-full`}
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 60, scale: 0.95 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{
+                  duration: 0.7,
+                  delay: index * 0.15,
+                  type: "spring",
+                  stiffness: 80,
+                }}
+                whileHover={{
+                  y: -8,
+                  transition: { duration: 0.3 },
+                }}
+                className="group relative"
               >
-                {/* Gradient Border Effect */}
-                <div
-                  className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-sm`}
-                />
-
-                {/* Top Accent Line */}
-                <motion.div
-                  className={`absolute top-0 left-8 right-8 h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
-                  initial={{ scaleX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : {}}
-                  transition={{ delay: index * 0.15 + 0.5, duration: 0.8 }}
-                  style={{ transformOrigin: "left" }}
-                />
-
-                {/* Content */}
-                <div className="relative z-10 h-full flex flex-col">
-                  {/* Icon and Title */}
-                  <div className="flex items-start gap-4 mb-6">
+                {/* Floating particles effect */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {[...Array(3)].map((_, i) => (
                     <motion.div
-                      className="text-4xl p-3 bg-white/80 rounded-2xl shadow-md group-hover:shadow-lg transition-shadow duration-300"
-                      whileHover={{
-                        scale: 1.1,
-                        rotate: [0, -5, 5, 0],
+                      key={i}
+                      className={`absolute w-2 h-2 ${service.accentColor} rounded-full opacity-0 group-hover:opacity-30`}
+                      style={{
+                        left: `${20 + i * 30}%`,
+                        top: `${30 + i * 20}%`,
                       }}
                       animate={{
-                        y: [0, -2, 0],
+                        y: [0, -20, 0],
+                        scale: [0.5, 1, 0.5],
                       }}
                       transition={{
-                        duration: 4,
+                        duration: 3,
                         repeat: Infinity,
-                        ease: "easeInOut",
+                        delay: i * 0.5,
                       }}
-                    >
-                      {service.icon}
-                    </motion.div>
+                    />
+                  ))}
+                </div>
 
-                    <div className="flex-1">
-                      <motion.h3
-                        className="text-2xl font-bold text-gray-800 mb-2"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ delay: index * 0.15 + 0.3 }}
-                      >
-                        {service.title}
-                      </motion.h3>
+                {/* Card */}
+                <div
+                  className={`relative bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-lg group-hover:shadow-2xl transition-all duration-500 h-full`}
+                >
+                  {/* Gradient Border Effect */}
+                  <div
+                    className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-sm`}
+                  />
+
+                  {/* Top Accent Line */}
+                  <motion.div
+                    className={`absolute top-0 left-8 right-8 h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
+                    initial={{ scaleX: 0 }}
+                    animate={isInView ? { scaleX: 1 } : {}}
+                    transition={{ delay: index * 0.15 + 0.5, duration: 0.8 }}
+                    style={{ transformOrigin: "left" }}
+                  />
+
+                  {/* Content */}
+                  <div className="relative z-10 h-full flex flex-col">
+                    {/* Icon and Title */}
+                    <div className="flex items-start gap-4 mb-6">
                       <motion.div
-                        className={`h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
-                        initial={{ width: 0 }}
-                        animate={isInView ? { width: "4rem" } : {}}
-                        transition={{
-                          delay: index * 0.15 + 0.6,
-                          duration: 0.8,
+                        className="text-4xl p-3 bg-white/80 rounded-2xl shadow-md group-hover:shadow-lg transition-shadow duration-300"
+                        whileHover={{
+                          scale: 1.1,
+                          rotate: [0, -5, 5, 0],
                         }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <motion.p
-                    className="text-gray-600 leading-relaxed mb-6 flex-grow"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: index * 0.15 + 0.4 }}
-                  >
-                    {service.description}
-                  </motion.p>
-
-                  {/* Features */}
-                  <div className="space-y-3 mb-8">
-                    {service.features.map((feature, featureIndex) => (
-                      <motion.div
-                        key={feature}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{
-                          delay: index * 0.15 + featureIndex * 0.1 + 0.5,
-                          duration: 0.4,
+                        animate={{
+                          y: [0, -2, 0],
                         }}
-                        whileHover={{ x: 5 }}
-                        className="flex items-center gap-3 group/item cursor-default"
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
                       >
+                        {service.icon}
+                      </motion.div>
+
+                      <div className="flex-1">
+                        <motion.h3
+                          className="text-2xl font-bold text-gray-800 mb-2"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{ delay: index * 0.15 + 0.3 }}
+                        >
+                          {service.title}
+                        </motion.h3>
                         <motion.div
-                          className={`w-6 h-6 rounded-full bg-gradient-to-r ${service.gradient} flex items-center justify-center shadow-sm`}
-                          whileHover={{ scale: 1.1, rotate: 90 }}
-                          transition={{ duration: 0.2 }}
+                          className={`h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
+                          initial={{ width: 0 }}
+                          animate={isInView ? { width: "4rem" } : {}}
+                          transition={{
+                            delay: index * 0.15 + 0.6,
+                            duration: 0.8,
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <motion.p
+                      className="text-gray-600 leading-relaxed mb-6 flex-grow"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={isInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ delay: index * 0.15 + 0.4 }}
+                    >
+                      {service.description}
+                    </motion.p>
+
+                    {/* Features */}
+                    <div className="space-y-3 mb-8">
+                      {service.features.map((feature, featureIndex) => (
+                        <motion.div
+                          key={feature}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{
+                            delay: index * 0.15 + featureIndex * 0.1 + 0.5,
+                            duration: 0.4,
+                          }}
+                          whileHover={{ x: 5 }}
+                          className="flex items-center gap-3 group/item cursor-default"
                         >
                           <motion.div
-                            className="w-2 h-2 bg-white rounded-full"
-                            animate={{
-                              scale: [1, 1.2, 1],
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              delay: featureIndex * 0.3,
-                            }}
-                          />
+                            className={`w-6 h-6 rounded-full bg-gradient-to-r ${service.gradient} flex items-center justify-center shadow-sm`}
+                            whileHover={{ scale: 1.1, rotate: 90 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <motion.div
+                              className="w-2 h-2 bg-white rounded-full"
+                              animate={{
+                                scale: [1, 1.2, 1],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: featureIndex * 0.3,
+                              }}
+                            />
+                          </motion.div>
+                          <span className="text-gray-700 font-medium group-hover/item:text-gray-800 transition-colors">
+                            {feature}
+                          </span>
                         </motion.div>
-                        <span className="text-gray-700 font-medium group-hover/item:text-gray-800 transition-colors">
-                          {feature}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
 
-                  {/* CTA Button */}
-                  <Link to={service.link} className="block mt-auto">
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className={`w-full py-4 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ delay: index * 0.15 + 0.8 }}
-                    >
-                      <span className="relative z-10">Découvrir ce service</span>
-                      <motion.div
-                        className="absolute inset-0 bg-white/15"
-                        initial={{ x: "-100%" }}
-                        whileHover={{ x: "100%" }}
-                        transition={{ duration: 0.6 }}
-                      />
-                    </motion.button>
-                  </Link>
+                    {/* CTA Button */}
+                    <Link to={service.link} className="block mt-auto">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`w-full py-4 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ delay: index * 0.15 + 0.8 }}
+                      >
+                        <span className="relative z-10">Découvrir ce service</span>
+                        <motion.div
+                          className="absolute inset-0 bg-white/15"
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: "100%" }}
+                          transition={{ duration: 0.6 }}
+                        />
+                      </motion.button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Deuxième ligne - 2 services centrés */}
+          <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {services.slice(3, 5).map((service, index) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 60, scale: 0.95 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{
+                  duration: 0.7,
+                  delay: (index + 3) * 0.15,
+                  type: "spring",
+                  stiffness: 80,
+                }}
+                whileHover={{
+                  y: -8,
+                  transition: { duration: 0.3 },
+                }}
+                className="group relative"
+              >
+                {/* Floating particles effect */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className={`absolute w-2 h-2 ${service.accentColor} rounded-full opacity-0 group-hover:opacity-30`}
+                      style={{
+                        left: `${20 + i * 30}%`,
+                        top: `${30 + i * 20}%`,
+                      }}
+                      animate={{
+                        y: [0, -20, 0],
+                        scale: [0.5, 1, 0.5],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: i * 0.5,
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Card */}
+                <div
+                  className={`relative bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm rounded-3xl p-8 border border-white/50 shadow-lg group-hover:shadow-2xl transition-all duration-500 h-full`}
+                >
+                  {/* Gradient Border Effect */}
+                  <div
+                    className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-700 blur-sm`}
+                  />
+
+                  {/* Top Accent Line */}
+                  <motion.div
+                    className={`absolute top-0 left-8 right-8 h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
+                    initial={{ scaleX: 0 }}
+                    animate={isInView ? { scaleX: 1 } : {}}
+                    transition={{ delay: (index + 3) * 0.15 + 0.5, duration: 0.8 }}
+                    style={{ transformOrigin: "left" }}
+                  />
+
+                  {/* Content */}
+                  <div className="relative z-10 h-full flex flex-col">
+                    {/* Icon and Title */}
+                    <div className="flex items-start gap-4 mb-6">
+                      <motion.div
+                        className="text-4xl p-3 bg-white/80 rounded-2xl shadow-md group-hover:shadow-lg transition-shadow duration-300"
+                        whileHover={{
+                          scale: 1.1,
+                          rotate: [0, -5, 5, 0],
+                        }}
+                        animate={{
+                          y: [0, -2, 0],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        {service.icon}
+                      </motion.div>
+
+                      <div className="flex-1">
+                        <motion.h3
+                          className="text-2xl font-bold text-gray-800 mb-2"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{ delay: (index + 3) * 0.15 + 0.3 }}
+                        >
+                          {service.title}
+                        </motion.h3>
+                        <motion.div
+                          className={`h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
+                          initial={{ width: 0 }}
+                          animate={isInView ? { width: "4rem" } : {}}
+                          transition={{
+                            delay: (index + 3) * 0.15 + 0.6,
+                            duration: 0.8,
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <motion.p
+                      className="text-gray-600 leading-relaxed mb-6 flex-grow"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={isInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ delay: (index + 3) * 0.15 + 0.4 }}
+                    >
+                      {service.description}
+                    </motion.p>
+
+                    {/* Features */}
+                    <div className="space-y-3 mb-8">
+                      {service.features.map((feature, featureIndex) => (
+                        <motion.div
+                          key={feature}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{
+                            delay: (index + 3) * 0.15 + featureIndex * 0.1 + 0.5,
+                            duration: 0.4,
+                          }}
+                          whileHover={{ x: 5 }}
+                          className="flex items-center gap-3 group/item cursor-default"
+                        >
+                          <motion.div
+                            className={`w-6 h-6 rounded-full bg-gradient-to-r ${service.gradient} flex items-center justify-center shadow-sm`}
+                            whileHover={{ scale: 1.1, rotate: 90 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <motion.div
+                              className="w-2 h-2 bg-white rounded-full"
+                              animate={{
+                                scale: [1, 1.2, 1],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: featureIndex * 0.3,
+                              }}
+                            />
+                          </motion.div>
+                          <span className="text-gray-700 font-medium group-hover/item:text-gray-800 transition-colors">
+                            {feature}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* CTA Button */}
+                    <Link to={service.link} className="block mt-auto">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`w-full py-4 bg-gradient-to-r ${service.gradient} text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ delay: (index + 3) * 0.15 + 0.8 }}
+                      >
+                        <span className="relative z-10">Découvrir ce service</span>
+                        <motion.div
+                          className="absolute inset-0 bg-white/15"
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: "100%" }}
+                          transition={{ duration: 0.6 }}
+                        />
+                      </motion.button>
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Stats Section */}
@@ -549,7 +727,6 @@ const Services = () => {
             </motion.span>
           </motion.p>
         </motion.div>
-      </div>
     </section>
   );
 };
