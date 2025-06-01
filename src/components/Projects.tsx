@@ -22,7 +22,7 @@ const Projects = () => {
       featured: true,
       features: ["IA de recommandation", "Paiement sécurisé", "Analytics avancées", "API REST"],
       github: "https://github.com/example/ecoshop",
-      demo: "https://ecoshop-demo.com",
+      lien: "https://ecoshop-demo.com",
       size: "large", // large card
       duration: "8 semaines"
     },
@@ -40,7 +40,7 @@ const Projects = () => {
       featured: false,
       features: ["Workflows automatisés", "Analyse prédictive", "Intégrations multiples", "Dashboard temps réel"],
       github: "https://github.com/example/autoflow",
-      demo: "https://autoflow-demo.com",
+      lien: "https://autoflow-demo.com",
       size: "medium",
       duration: "6 semaines"
     },
@@ -58,7 +58,7 @@ const Projects = () => {
       featured: false,
       features: ["Téléconsultation HD", "Gestion RDV", "Dossier médical"],
       github: "https://github.com/example/mediconnect",
-      demo: "https://mediconnect-demo.com",
+      lien: "https://mediconnect-demo.com",
       size: "small",
       duration: "4 semaines"
     },
@@ -94,7 +94,7 @@ const Projects = () => {
       featured: false,
       features: ["ML en temps réel", "Visualisation avancée", "Big Data"],
       github: "https://github.com/example/neural-analytics",
-      demo: "https://neural-analytics-demo.com",
+      lien: "https://neural-analytics-demo.com",
       size: "medium",
       duration: "7 semaines"
     },
@@ -112,7 +112,7 @@ const Projects = () => {
       featured: false,
       features: ["WebXR natif", "Interactions 3D", "Multi-plateforme"],
       github: "https://github.com/example/vr-showroom",
-      demo: "https://vr-showroom-demo.com",
+      lien: "https://vr-showroom-demo.com",
       size: "small",
       duration: "5 semaines"
     }
@@ -533,7 +533,7 @@ const Projects = () => {
 
                 {/* Action Buttons */}
                 <div className="flex gap-4 pt-4">
-                  <motion.a
+                  {/* <motion.a
                     href={selectedProject.github}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -542,16 +542,16 @@ const Projects = () => {
                     className="flex-1 py-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl text-center transition-colors shadow-lg"
                   >
                     Code source
-                  </motion.a>
+                  </motion.a> */}
                   <motion.a
-                    href={selectedProject.demo}
+                    href={selectedProject.lien}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className={`flex-1 py-4 bg-gradient-to-r ${selectedProject.gradient} text-white font-semibold rounded-xl text-center shadow-lg`}
                   >
-                    Voir la démo
+                    Visiter le site
                   </motion.a>
                 </div>
               </div>
