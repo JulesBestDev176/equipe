@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const CGV = () => {
+  useScrollToTop();
   const sections = [
     {
       title: "1. Objet et champ d'application",

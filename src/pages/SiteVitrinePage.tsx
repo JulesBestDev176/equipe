@@ -2,10 +2,12 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ArrowRight, CheckCircle, Star, Monitor, Smartphone, Globe, Shield, Headphones, Zap, Users, Clock, Award, Code, Search, Palette, Lock } from 'lucide-react';
-import Footer from './Footer';
-import Header from './Header';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const SiteVitrinePage = () => {
+  useScrollToTop();
   const heroRef = useRef(null);
   const servicesRef = useRef(null);
   const pricingRef = useRef(null);

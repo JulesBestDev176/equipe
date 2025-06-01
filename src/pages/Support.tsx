@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 
 const Support = () => {
+  useScrollToTop();
   const [selectedTicketType, setSelectedTicketType] = useState('');
   const [formData, setFormData] = useState({
     name: '',

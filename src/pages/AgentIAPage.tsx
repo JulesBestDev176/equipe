@@ -4,8 +4,10 @@ import { useRef, useState } from 'react';
 import { ArrowRight, CheckCircle, Star, MessageCircle, Calendar, Mail, Share2, BarChart3, Shield, Headphones, Zap, Users, Clock, Award } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const AgentIAPage = () => {
+  useScrollToTop();
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
   const howItWorksRef = useRef(null);

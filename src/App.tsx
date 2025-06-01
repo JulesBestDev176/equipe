@@ -5,15 +5,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Blog from "./components/Blog";
-import Faq from "./components/Faq";
-import Support from "./components/Support";
-import MentionsLegales from "./components/MentionsLegales";
-import Confidentialite from "./components/Confidentialite";
-import CGV from "./components/CGV";
-import AgentIAPage from "./components/AgentIAPage";
-import SiteVitrinePage from "./components/SiteVitrinePage";
-import ScrollToTop from "./components/ScrollToTop";
+import Blog from "./pages/Blog";
+import Faq from "./pages/Faq";
+import Support from "./pages/Support";
+import MentionsLegales from "./pages/MentionsLegales";
+import Confidentialite from "./pages/Confidentialite";
+import CGV from "./pages/CGV";
+import AgentIAPage from "./pages/AgentIAPage";
+import SiteVitrinePage from "./pages/SiteVitrinePage";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +22,6 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-      <ScrollToTop>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<Blog />} />
@@ -37,7 +35,6 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-        </ScrollToTop>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

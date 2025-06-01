@@ -2,8 +2,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const FAQ = () => {
+  useScrollToTop();
   const [selectedCategory, setSelectedCategory] = useState('general');
   const [openItems, setOpenItems] = useState(new Set([1])); // Premier item ouvert par défaut
 

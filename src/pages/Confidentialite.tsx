@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const Confidentialite = () => {
+  useScrollToTop();
   const sections = [
     {
       title: "1. Collecte des données personnelles",

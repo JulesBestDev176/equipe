@@ -9,8 +9,10 @@ import Team from '../components/Team';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import Tarifs from '@/components/Tarifs';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 const Index = () => {
+  useScrollToTop();
   const [isLoading, setIsLoading] = useState(true);
 
   const handleLoadingComplete = () => {
