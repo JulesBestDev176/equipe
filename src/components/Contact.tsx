@@ -1,5 +1,7 @@
-import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import { motion, useInView, useMotionValue } from "framer-motion";
 import { useRef, useState } from "react";
+import { useContactForm } from "../hooks/useContactForm";
+import FallbackContact from "../components/FallbackContact";
 
 // Ajout de la déclaration pour window.gtag
 declare global {
@@ -12,44 +14,16 @@ const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  type FormData = {
-    name: string;
-    email: string;
-    message: string;
-    budget: string;
-    timeline: string;
-    company: string;
-    phone: string;
-  };
+  // Utiliser le hook personnalisé pour la gestion du formulaire
+  const {
+    formData,
+    formState: { isSubmitting, submitStatus, errors, showFallback },
+    handleChange,
+    submitForm,
+    closeFallback
+  } = useContactForm();
 
-  type FormErrors = Partial<Record<keyof FormData, string>>;
-
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    message: "",
-    budget: "",
-    timeline: "",
-    company: "",
-    phone: "",
-  });
-  const [focusedField, setFocusedField] = useState<keyof FormData | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
-  const [formErrors, setFormErrors] = useState<FormErrors>({});
-
-  const validateForm = () => {
-    const errors: FormErrors = {};
-    if (!formData.name.trim()) errors.name = "Le nom est requis";
-    if (!formData.email.trim()) errors.email = "L'email est requis";
-    if (!formData.email.includes("@")) errors.email = "Email invalide";
-    if (!formData.message.trim()) errors.message = "Le message est requis";
-    if (formData.message.length < 10)
-      errors.message = "Message trop court (min. 10 caractères)";
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   // Declare motion values for interactive effects
   const mouseX = useMotionValue(0);
@@ -58,7 +32,7 @@ const Contact = () => {
   const rotateY = useMotionValue(0);
 
   // Mouse move handler for interactive effects (disabled on mobile)
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (window.innerWidth < 768) return; // Disable on mobile
 
     const centerX = window.innerWidth / 2;
@@ -70,99 +44,6 @@ const Contact = () => {
     mouseY.set(e.clientY);
     rotateX.set(-y);
     rotateY.set(x);
-  };
-
-  const handleSubmit = async () => {
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-    setFormErrors({});
-
-    try {
-      console.log("📤 Envoi du message de contact...", formData);
-
-      const response = await fetch(
-        `${
-          process.env.REACT_APP_API_URL || "http://localhost:5000"
-        }/api/contact/send`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await response.json();
-      console.log("📥 Réponse API:", data);
-
-      if (response.ok && data.success) {
-        setSubmitStatus("success");
-        setFormData({
-          name: "",
-          email: "",
-          message: "",
-          budget: "",
-          timeline: "",
-          company: "",
-          phone: "",
-        });
-
-        console.log("✅ Message envoyé avec succès");
-
-        // Analytics/tracking optionnel
-        if (window.gtag) {
-          window.gtag("event", "form_submit", {
-            event_category: "Contact",
-            event_label: "Contact Form",
-          });
-        }
-      } else {
-        // Gestion des erreurs spécifiques
-        if (data.errors && Array.isArray(data.errors)) {
-          // Erreurs de validation
-          const errorMap = {};
-          data.errors.forEach((error) => {
-            errorMap[error.field] = error.message;
-          });
-          setFormErrors(errorMap);
-
-          console.warn("⚠️ Erreurs de validation:", data.errors);
-        } else {
-          setSubmitStatus("error");
-          console.error("❌ Erreur serveur:", data.message);
-        }
-      }
-    } catch (error) {
-      setSubmitStatus("error");
-      console.error("❌ Erreur réseau:", error);
-
-      // Fallback pour contact direct en cas d'erreur
-      if (error.name === "TypeError" && error.message.includes("fetch")) {
-        console.log("🔄 Tentative de fallback...");
-        // Optionnel : rediriger vers WhatsApp ou email direct
-      }
-    } finally {
-      setIsSubmitting(false);
-
-      // Auto-clear du status après 5 secondes
-      setTimeout(() => {
-        setSubmitStatus(null);
-        setFormErrors({});
-      }, 5000);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Clear error when user starts typing
-    if (formErrors[name]) {
-      setFormErrors({ ...formErrors, [name]: "" });
-    }
   };
 
   const budgetOptions = [
@@ -360,26 +241,26 @@ const Contact = () => {
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.name
+                        errors.name
                           ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                           : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="Votre nom complet *"
                     />
-                    {focusedField === "name" && !formErrors.name && (
+                    {focusedField === "name" && !errors.name && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full"
                       />
                     )}
-                    {formErrors.name && (
+                    {errors.name && (
                       <motion.p
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-red-500 text-xs sm:text-sm mt-2 flex items-center gap-1"
                       >
-                        <span>⚠️</span> {formErrors.name}
+                        <span>⚠️</span> {errors.name}
                       </motion.p>
                     )}
                   </div>
@@ -393,26 +274,26 @@ const Contact = () => {
                       onFocus={() => setFocusedField("company")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.company
+                        errors.company
                           ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                           : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="Votre entreprise"
                     />
-                    {focusedField === "company" && !formErrors.company && (
+                    {focusedField === "company" && !errors.company && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full"
                       />
                     )}
-                    {formErrors.company && (
+                    {errors.company && (
                       <motion.p
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-red-500 text-xs sm:text-sm mt-2 flex items-center gap-1"
                       >
-                        <span>⚠️</span> {formErrors.company}
+                        <span>⚠️</span> {errors.company}
                       </motion.p>
                     )}
                   </div>
@@ -429,26 +310,26 @@ const Contact = () => {
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.email
+                        errors.email
                           ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                           : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="votre@email.com *"
                     />
-                    {focusedField === "email" && !formErrors.email && (
+                    {focusedField === "email" && !errors.email && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full"
                       />
                     )}
-                    {formErrors.email && (
+                    {errors.email && (
                       <motion.p
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-red-500 text-xs sm:text-sm mt-2 flex items-center gap-1"
                       >
-                        <span>⚠️</span> {formErrors.email}
+                        <span>⚠️</span> {errors.email}
                       </motion.p>
                     )}
                   </div>
@@ -462,26 +343,26 @@ const Contact = () => {
                       onFocus={() => setFocusedField("phone")}
                       onBlur={() => setFocusedField(null)}
                       className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm sm:text-base ${
-                        formErrors.phone
+                        errors.phone
                           ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                           : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                       }`}
                       placeholder="Votre téléphone"
                     />
-                    {focusedField === "phone" && !formErrors.phone && (
+                    {focusedField === "phone" && !errors.phone && (
                       <motion.div
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full"
                       />
                     )}
-                    {formErrors.phone && (
+                    {errors.phone && (
                       <motion.p
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-red-500 text-xs sm:text-sm mt-2 flex items-center gap-1"
                       >
-                        <span>⚠️</span> {formErrors.phone}
+                        <span>⚠️</span> {errors.phone}
                       </motion.p>
                     )}
                   </div>
@@ -539,7 +420,7 @@ const Contact = () => {
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border rounded-xl sm:rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none transition-all duration-300 resize-none text-sm sm:text-base ${
-                      formErrors.message
+                      errors.message
                         ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                         : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                     }`}
@@ -547,27 +428,27 @@ const Contact = () => {
                     required
                     rows={5}
                   />
-                  {focusedField === "message" && !formErrors.message && (
+                  {focusedField === "message" && !errors.message && (
                     <motion.div
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full"
                     />
                   )}
-                  {formErrors.message && (
+                  {errors.message && (
                     <motion.p
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="text-red-500 text-xs sm:text-sm mt-2 flex items-center gap-1"
                     >
-                      <span>⚠️</span> {formErrors.message}
+                      <span>⚠️</span> {errors.message}
                     </motion.p>
                   )}
                 </div>
 
                 {/* Enhanced Submit Button */}
                 <motion.button
-                  onClick={handleSubmit}
+                  onClick={submitForm}
                   disabled={isSubmitting}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -616,20 +497,19 @@ const Contact = () => {
                     className="text-center p-3 sm:p-4 bg-emerald-50 border border-emerald-200 rounded-xl sm:rounded-2xl"
                   >
                     <span className="text-emerald-600 font-medium text-sm sm:text-base">
-                      ✅ Message envoyé avec succès ! Nous vous répondrons sous
-                      2h.
+                      ✅ Message envoyé avec succès ! Nous vous répondrons sous 2h.
                     </span>
                   </motion.div>
                 )}
 
-                {submitStatus === "error" && (
+                {submitStatus === "error" && !showFallback && (
                   <motion.div
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     className="text-center p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl"
                   >
                     <span className="text-red-600 font-medium text-sm sm:text-base">
-                      ❌ Erreur lors de l'envoi. Veuillez réessayer.
+                      ❌ {errors.general || "Erreur lors de l'envoi. Veuillez réessayer."}
                     </span>
                   </motion.div>
                 )}
@@ -817,8 +697,7 @@ const Contact = () => {
                 Prêt à commencer ?
               </h4>
               <p className="text-sm sm:text-base mb-4 opacity-90">
-                Remplissez le formulaire ci-dessus ou contactez-nous directement
-                !
+                Remplissez le formulaire ci-dessus ou contactez-nous directement !
               </p>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <motion.a
@@ -854,8 +733,7 @@ const Contact = () => {
               Basé à Dakar, Sénégal
             </h4>
             <p className="text-sm text-gray-600 mb-4">
-              Nous servons des clients dans toute l'Afrique de l'Ouest et
-              au-delà
+              Nous servons des clients dans toute l'Afrique de l'Ouest et au-delà
             </p>
             <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-500">
               <span className="bg-white px-3 py-1 rounded-full">
@@ -869,6 +747,13 @@ const Contact = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Composant de fallback */}
+      <FallbackContact
+        formData={formData}
+        onClose={closeFallback}
+        show={showFallback}
+      />
     </section>
   );
 };
