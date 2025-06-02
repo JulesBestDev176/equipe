@@ -52,10 +52,10 @@ class ApiService {
     this.baseURL = this.getApiUrl();
     this.timeout = 30000; // 30 secondes
     
-    console.log('🔧 API Service initialisé:', {
-      baseURL: this.baseURL,
-      environment: this.getEnvironment()
-    });
+    // console.log('🔧 API Service initialisé:', {
+    //   baseURL: this.baseURL,
+    //   environment: this.getEnvironment()
+    // });
   }
 
   // Récupérer l'URL de l'API selon l'environnement
@@ -100,7 +100,7 @@ class ApiService {
 
   // Gestion des erreurs réseau
   private handleNetworkError(error: Error): ApiResponse {
-    console.error('🔥 Erreur réseau détectée:', error);
+    // console.error('🔥 Erreur réseau détectée:', error);
     
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
       return {
@@ -131,8 +131,8 @@ class ApiService {
   // Test de connectivité avec le backend
   async healthCheck(): Promise<ApiResponse> {
     try {
-      console.log('🏥 Test de connectivité backend...');
-      console.log('🔗 URL testée:', `${this.baseURL}/health`);
+      // console.log('🏥 Test de connectivité backend...');
+      // console.log('🔗 URL testée:', `${this.baseURL}/health`);
       
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -150,11 +150,11 @@ class ApiService {
       }
 
       const data = await response.json();
-      console.log('✅ Backend accessible:', data);
+      // console.log('✅ Backend accessible:', data);
       return { success: true, data };
 
     } catch (error) {
-      console.error('❌ Backend inaccessible:', error);
+      // console.error('❌ Backend inaccessible:', error);
       return this.handleNetworkError(error as Error);
     }
   }
@@ -196,12 +196,12 @@ class ApiService {
   // Envoyer le formulaire de contact
   async sendContactForm(formData: FormData): Promise<ApiResponse> {
     try {
-      console.log('📤 Envoi du formulaire de contact...', formData);
+      // console.log('📤 Envoi du formulaire de contact...', formData);
 
       // Validation côté client avant envoi
       const validation = this.validateFormData(formData);
       if (!validation.isValid) {
-        console.warn('⚠️ Validation échouée côté client:', validation.errors);
+        // console.warn('⚠️ Validation échouée côté client:', validation.errors);
         return {
           success: false,
           error: 'VALIDATION_ERROR',
@@ -232,11 +232,11 @@ class ApiService {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
         controller.abort();
-        console.warn('⏰ Timeout de la requête après 30s');
+        // console.warn('⏰ Timeout de la requête après 30s');
       }, this.timeout);
 
       const endpoint = `${this.baseURL}/api/contact/send`;
-      console.log('🚀 Envoi vers:', endpoint);
+      // console.log('🚀 Envoi vers:', endpoint);
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -252,14 +252,14 @@ class ApiService {
       try {
         data = await response.json();
       } catch (parseError) {
-        console.error('❌ Erreur parsing JSON:', parseError);
+        // console.error('❌ Erreur parsing JSON:', parseError);
         throw new Error('Réponse serveur invalide');
       }
 
-      console.log('📥 Réponse API:', data);
+      // console.log('📥 Réponse API:', data);
 
       if (!response.ok) {
-        console.error(`❌ Erreur HTTP ${response.status}:`, data);
+        // console.error(`❌ Erreur HTTP ${response.status}:`, data);
         return {
           success: false,
           error: 'SERVER_ERROR',
@@ -270,7 +270,7 @@ class ApiService {
       }
 
       if (!data.success) {
-        console.error('❌ Réponse négative du serveur:', data);
+        // console.error('❌ Réponse négative du serveur:', data);
         return {
           success: false,
           error: 'API_ERROR',
@@ -279,11 +279,11 @@ class ApiService {
         };
       }
 
-      console.log('✅ Formulaire envoyé avec succès:', data);
+      // console.log('✅ Formulaire envoyé avec succès:', data);
       return data;
 
     } catch (error) {
-      console.error('❌ Erreur lors de l\'envoi du formulaire:', error);
+      // console.error('❌ Erreur lors de l\'envoi du formulaire:', error);
       return this.handleNetworkError(error as Error);
     }
   }
@@ -335,7 +335,7 @@ class ApiService {
   // Test de l'endpoint de contact
   async testContactEndpoint(): Promise<ApiResponse> {
     try {
-      console.log('🧪 Test de l\'endpoint de contact...');
+      // console.log('🧪 Test de l\'endpoint de contact...');
       
       const response = await fetch(`${this.baseURL}/api/contact/test`, {
         method: 'GET',
@@ -347,18 +347,18 @@ class ApiService {
       }
 
       const data = await response.json();
-      console.log('✅ Endpoint de contact accessible:', data);
+      // console.log('✅ Endpoint de contact accessible:', data);
       return { success: true, data };
 
     } catch (error) {
-      console.error('❌ Endpoint de contact inaccessible:', error);
+      // console.error('❌ Endpoint de contact inaccessible:', error);
       return this.handleNetworkError(error as Error);
     }
   }
 
   // Vérification complète de l'API
   async checkApiStatus(): Promise<{ healthy: boolean; results: { health: ApiResponse; contact: ApiResponse } }> {
-    console.log('🔍 Vérification complète de l\'API...');
+    // console.log('🔍 Vérification complète de l\'API...');
     
     const results = {
       health: await this.healthCheck(),
@@ -367,10 +367,10 @@ class ApiService {
 
     const isHealthy = results.health.success && results.contact.success;
     
-    console.log('📊 Statut API:', {
-      healthy: isHealthy,
-      details: results
-    });
+    // console.log('📊 Statut API:', {
+    //   healthy: isHealthy,
+    //   details: results
+    // });
 
     return {
       healthy: isHealthy,
@@ -399,7 +399,7 @@ class ApiService {
       } : null
     };
 
-    console.error('📝 Log d\'erreur:', errorLog);
+    // console.error('📝 Log d\'erreur:', errorLog);
     
     // En production, on pourrait envoyer ce log à un service de monitoring
     if (this.getEnvironment() === 'production') {
@@ -413,7 +413,7 @@ class ApiService {
   // Méthodes utilitaires publiques
   setBaseURL(url: string): void {
     this.baseURL = url;
-    console.log('🔧 URL de base mise à jour:', this.baseURL);
+    // console.log('🔧 URL de base mise à jour:', this.baseURL);
   }
 
   getBaseURL(): string {
@@ -422,7 +422,7 @@ class ApiService {
 
   setTimeout(timeout: number): void {
     this.timeout = timeout;
-    console.log('⏰ Timeout mis à jour:', this.timeout);
+    // console.log('⏰ Timeout mis à jour:', this.timeout);
   }
 
   getTimeout(): number {
