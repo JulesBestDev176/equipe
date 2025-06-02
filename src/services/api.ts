@@ -72,7 +72,7 @@ class ApiService {
     }
     
     // Fallback par défaut
-    return 'http://localhost:5000';
+    return 'https://devflow-back.onrender.com';
   }
 
   // Récupérer l'environnement
