@@ -268,7 +268,7 @@ const Hero = () => {
           {[
             {
               icon: "📊",
-              number: "50+",
+              number: "100+",
               label: "Projets réalisés",
               color: "text-blue-400",
             },
