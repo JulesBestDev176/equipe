@@ -85,7 +85,7 @@ class ApiService {
       if (globalEnv) return globalEnv as string;
     }
     
-    return 'development';
+    return 'production';
   }
 
   // Configuration par défaut des requêtes
