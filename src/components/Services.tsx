@@ -114,7 +114,7 @@ const Services = () => {
           className="text-center mb-20"
         >
           <motion.h2
-            className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6"
+            className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6"
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 200 }}
           >

@@ -392,7 +392,7 @@ const Projects = () => {
           className="text-center mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent mb-6"
+            className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent mb-6"
             initial={{ backgroundPosition: "0% 50%" }}
             animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}

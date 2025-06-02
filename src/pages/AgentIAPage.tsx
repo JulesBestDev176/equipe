@@ -1279,7 +1279,7 @@ const AgentIAPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
         <motion.div
           className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white/5 to-transparent"
           animate={{ x: [-100, 100] }}
