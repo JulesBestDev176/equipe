@@ -106,7 +106,7 @@ const Blog = () => {
       <Header/>
       
       {/* Hero Section - Responsive */}
-      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center relative overflow-hidden pt-16 sm:pt-20 lg:pt-24">
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white flex items-center relative overflow-hidden pt-16 sm:pt-20 lg:pt-24">
         {/* Background avec effets géométriques - Responsive */}
         <div className="absolute inset-0">
           {/* Formes animées avec tailles responsives */}

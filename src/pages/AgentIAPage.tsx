@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ArrowRight, CheckCircle, Star, MessageCircle, Calendar, Mail, Share2, BarChart3, Shield, Headphones, Zap, Users, Clock, Award, Globe, Monitor, Database, Code } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, MessageCircle, Calendar, Mail, Share2, BarChart3, Shield, Headphones, Zap, Users, Clock, Award, Globe, Monitor, Database, Code, Phone, Rocket, BadgeDollarSign, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -291,7 +291,7 @@ const AgentIAPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      <section ref={heroRef} className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0">
           <motion.div
             className="absolute top-10 sm:top-20 right-10 sm:right-20 w-48 h-48 sm:w-72 sm:h-72 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-full blur-3xl"
@@ -354,16 +354,11 @@ const AgentIAPage = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isHeroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
             >
-              Votre{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                Assistant IA
-              </span>
+              Votre Assistant IA
               <br />
-              <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                 Pour Automatiser Votre Quotidien
-              </span>
             </motion.h1>
             
             <motion.p
@@ -373,8 +368,8 @@ const AgentIAPage = () => {
               className="text-lg sm:text-xl md:text-2xl text-slate-300 mb-10 leading-relaxed max-w-4xl mx-auto px-4"
             >
               Un assistant intelligent qui{" "}
-              <strong className="text-blue-400">gère vos emails</strong>, organise votre agenda et optimise vos réseaux sociaux{" "}
-              <strong className="text-purple-400">pendant que vous vous concentrez sur l'essentiel</strong>.
+              <strong className="text-white">gère vos emails</strong>, organise votre agenda et optimise vos réseaux sociaux{" "}
+              <strong className="text-white">pendant que vous vous concentrez sur l'essentiel</strong>.
             </motion.p>
             
             <motion.div
@@ -384,10 +379,10 @@ const AgentIAPage = () => {
               className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto"
             >
               {[
-                { icon: Shield, text: "100% Sécurisé", color: "text-green-400", bgColor: "from-green-500/10 to-emerald-500/10" },
+                { icon: Shield, text: "100% Sécurisé", color: "text-blue-400", bgColor: "from-green-500/10 to-emerald-500/10" },
                 { icon: Clock, text: "Setup en 48h", color: "text-blue-400", bgColor: "from-blue-500/10 to-cyan-500/10" },
-                { icon: Headphones, text: "Support Local", color: "text-purple-400", bgColor: "from-purple-500/10 to-violet-500/10" },
-                { icon: Award, text: "Multi-Plateformes", color: "text-pink-400", bgColor: "from-pink-500/10 to-rose-500/10" }
+                { icon: Headphones, text: "Support Local", color: "text-blue-400", bgColor: "from-purple-500/10 to-violet-500/10" },
+                { icon: Award, text: "Multi-Plateformes", color: "text-blue-400", bgColor: "from-pink-500/10 to-rose-500/10" }
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -476,7 +471,7 @@ const AgentIAPage = () => {
                     : 'bg-white/80 backdrop-blur-sm border-2 border-gray-200 shadow-xl hover:shadow-2xl'
                 }`}
               >
-                {plan.popular && (
+                {/* {plan.popular && (
                   <motion.div
                     className="absolute -top-4 left-1/2 transform -translate-x-1/2"
                     initial={{ scale: 0, rotate: -180 }}
@@ -487,7 +482,7 @@ const AgentIAPage = () => {
                       ⭐ Le Plus Populaire
                     </span>
                   </motion.div>
-                )}
+                )} */}
                 
                 <div className="text-center">
                   <div className="mb-4">
@@ -1279,7 +1274,7 @@ const AgentIAPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
         <motion.div
           className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white/5 to-transparent"
           animate={{ x: [-100, 100] }}
@@ -1346,34 +1341,7 @@ const AgentIAPage = () => {
               Rejoignez les professionnels qui ont libéré jusqu'à 10h par semaine grâce à notre assistant IA
             </motion.p>
             
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center mb-8"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <motion.button
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-8 lg:px-10 py-4 lg:py-5 rounded-2xl text-base lg:text-lg font-bold shadow-2xl hover:shadow-white/25 transition-all duration-300 inline-flex items-center justify-center group"
-              >
-                Démarrer Maintenant 
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRight className="ml-3 w-5 h-5 lg:w-6 lg:h-6" />
-                </motion.div>
-              </motion.button>
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-8 lg:px-10 py-4 lg:py-5 rounded-2xl text-base lg:text-lg font-bold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-              >
-                🗣️ Parler à un Expert
-              </motion.button>
-            </motion.div>
+           
             
             <motion.div
               className="text-blue-100 space-y-2"
@@ -1386,7 +1354,7 @@ const AgentIAPage = () => {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  📞
+                  <Phone className="w-5 h-5 text-white" />
                 </motion.span>
                 +221 77 715 10 61
               </p>
@@ -1395,12 +1363,17 @@ const AgentIAPage = () => {
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                 >
-                  📧
+                  <Mail className="w-5 h-5 text-white" />
                 </motion.span>
                 contact@devflow.sn
               </p>
-              <p className="text-blue-200 text-xs lg:text-sm mt-4 px-4">
-                🚀 Configuration en 48h • 💰 Consultation gratuite • 🛡️ Support local • 🇸🇳 Expertise sénégalaise
+              <p className="text-blue-200 text-xs lg:text-sm mt-4 px-4 flex flex-wrap gap-3 justify-center items-center">
+                <Rocket className="w-4 h-4 text-white" /> Livraison en 7–14
+                jours •
+                <BadgeDollarSign className="w-4 h-4 text-white" /> Devis gratuit
+                •
+                <ShieldCheck className="w-4 h-4 text-white" /> Garantie
+                satisfaction
               </p>
             </motion.div>
           </motion.div>

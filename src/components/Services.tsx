@@ -1,4 +1,5 @@
 import { motion, useInView } from "framer-motion";
+import { Bolt, Clock, FolderKanban, Smile } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
@@ -14,7 +15,7 @@ const Services = () => {
         "Un assistant intelligent qui répond à vos clients, prend les commandes et gère votre business pendant que vous vous reposez. Tout se passe sur WhatsApp.",
       icon: "🤖",
       gradient: "from-blue-500 via-blue-600 to-indigo-700",
-      bgGradient: "from-blue-50 to-indigo-50",
+      bgGradient: "from-blue-20 to-indigo-50",
       features: [
         "Réceptionniste virtuelle 24h/24",
         "Prospection automatique de clients",
@@ -32,16 +33,16 @@ const Services = () => {
       description:
         "Des sites web modernes et responsive pour faire grandir votre business. Du simple site vitrine au e-commerce complet, nous créons la solution parfaite.",
       icon: "🌐",
-      gradient: "from-emerald-500 via-emerald-600 to-teal-700",
-      bgGradient: "from-emerald-50 to-teal-50",
+      gradient: "from-blue-500 via-blue-600 to-indigo-700",
+      bgGradient: "from-emerald-20 to-teal-50",
       features: [
         "Sites vitrines & e-commerce", 
         "SEO intégré & référencement naturel", 
         "Design responsive sur mesure",
         "Sécurisé avec protection avancée"
       ],
-      color: "emerald",
-      accentColor: "bg-emerald-500",
+      color: "blue",
+      accentColor: "bg-blue-500",
       link: '/site-web',
     },
     {
@@ -50,8 +51,8 @@ const Services = () => {
       description:
         "Des applications sur mesure pour tous vos besoins : web, mobile ou desktop. Solutions complètes adaptées à votre activité et vos utilisateurs.",
       icon: "💻",
-      gradient: "from-purple-500 via-purple-600 to-violet-700",
-      bgGradient: "from-purple-50 to-violet-50",
+            gradient: "from-blue-500 via-blue-600 to-indigo-700",
+      bgGradient: "from-purple-20 to-violet-50",
       features: [
         "Applications Web progressives (PWA)",
         "Applications Mobile (iOS/Android)",
@@ -59,38 +60,68 @@ const Services = () => {
         "Interfaces utilisateur modernes",
         "Synchronisation multi-plateforme"
       ],
-      color: "purple",
-      accentColor: "bg-purple-500",
+      color: "blue",
+      accentColor: "bg-blue-500",
       link: '/applications',
     }
   ];
 
-  const stats = [
-    {
-      icon: "⚡",
-      number: "95%",
-      label: "Performance",
-      gradient: "from-blue-500 to-cyan-500",
-    },
-    {
-      icon: "🎯",
-      number: "100%",
-      label: "Satisfaction",
-      gradient: "from-emerald-500 to-teal-500",
-    },
-    {
-      icon: "⏱️",
-      number: "24h",
-      label: "Support",
-      gradient: "from-purple-500 to-violet-500",
-    },
-    {
-      icon: "🚀",
-      number: "50+",
-      label: "Projets",
-      gradient: "from-orange-500 to-red-500",
-    },
-  ];
+  // const stats = [
+  //   {
+  //     icon: "⚡",
+  //     number: "95%",
+  //     label: "Performance",
+  //     gradient: "from-blue-500 to-cyan-500",
+  //   },
+  //   {
+  //     icon: "🎯",
+  //     number: "100%",
+  //     label: "Satisfaction",
+  //     gradient: "from-blue-500 to-cyan-500",
+  //   },
+  //   {
+  //     icon: "⏱️",
+  //     number: "24h",
+  //     label: "Support",
+  //     gradient: "from-blue-500 to-cyan-500",
+  //   },
+  //   {
+  //     icon: "🚀",
+  //     number: "150+",
+  //     label: "Projets",
+  //     gradient: "from-blue-500 to-cyan-500",
+  //   },
+  // ];
+
+
+
+const stats = [
+  {
+    icon: <Bolt className="text-2xl text-blue-500"/>, // Performance
+    number: "95%",
+    label: "Performance",
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    icon: <Smile className="text-2xl text-blue-500" />, // Satisfaction
+    number: "100%",
+    label: "Satisfaction",
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    icon: <Clock className="text-2xl text-blue-500" />, // Support 24h
+    number: "24h",
+    label: "Support",
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    icon: <FolderKanban className="text-2xl text text-blue-500" />, // Projets
+    number: "150+",
+    label: "Projets",
+    gradient: "from-blue-500 to-cyan-500",
+  },
+];
+
 
   return (
     <section
@@ -489,7 +520,7 @@ const Services = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/50 mb-16 overflow-hidden relative"
+          className="bg-white/70 backdrop-blur-xl  p-8  border border-white/50 mb-16 overflow-hidden relative"
         >
           {/* Animated background elements */}
           <div className="absolute inset-0 pointer-events-none">
@@ -522,7 +553,7 @@ const Services = () => {
             transition={{ delay: 0.9 }}
           >
             Pourquoi choisir
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
               {" "}
               DevFlow
             </span>{" "}
@@ -625,7 +656,7 @@ const Services = () => {
               />
             ))}
           </div>
-
+{/* 
           <motion.button
             whileHover={{
               scale: 1.05,
@@ -676,8 +707,6 @@ const Services = () => {
                 →
               </motion.span>
             </span>
-
-            {/* Multiple animated backgrounds */}
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-700"
               initial={{ x: "-100%" }}
@@ -725,7 +754,7 @@ const Services = () => {
             >
               ✅ Support inclus
             </motion.span>
-          </motion.p>
+          </motion.p> */}
         </motion.div>
     </section>
   );

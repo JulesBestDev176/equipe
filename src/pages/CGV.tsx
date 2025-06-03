@@ -191,7 +191,7 @@ const CGV = () => {
       <Header />
       
       {/* Hero Section avec background identique au Hero principal */}
-      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center relative overflow-hidden pt-24">
+      <section className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white flex items-center relative overflow-hidden pt-24">
         {/* Background avec effets géométriques */}
         <div className="absolute inset-0">
           {/* Formes animées avec couleurs harmonieuses */}

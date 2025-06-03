@@ -1,4 +1,5 @@
 import { motion, useInView } from "framer-motion";
+import { Facebook, Instagram, Linkedin, Mail, MailCheck, MapPin, Music2, Phone, PhoneCall, Twitter } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -124,50 +125,67 @@ const Footer = () => {
     },
   ];
 
-  const socialLinks = [
-    {
-      icon: "💼",
-      label: "LinkedIn",
-      href: "#",
-      gradient: "from-blue-600 to-blue-700",
-      hoverColor: "hover:shadow-blue-500/30",
-    },
-    {
-      icon: "🐱",
-      label: "GitHub",
-      href: "#",
-      gradient: "from-gray-700 to-gray-900",
-      hoverColor: "hover:shadow-gray-500/30",
-    },
-    {
-      icon: "🐦",
-      label: "Twitter",
-      href: "#",
-      gradient: "from-sky-500 to-sky-600",
-      hoverColor: "hover:shadow-sky-500/30",
-    },
-    {
-      icon: "📱",
-      label: "WhatsApp",
-      href: "#",
-      gradient: "from-green-600 to-green-700",
-      hoverColor: "hover:shadow-green-500/30",
-    },
-    {
-      icon: "📧",
-      label: "Email",
-      href: "mailto:souleymanefall176@gmail.com",
-      gradient: "from-purple-600 to-purple-700",
-      hoverColor: "hover:shadow-purple-500/30",
-    },
-  ];
+ 
 
-  const stats = [
-    { number: "50+", label: "Projets réalisés", icon: "🚀" },
-    { number: "3+", label: "Années d'expérience", icon: "⏰" },
-    { number: "100%", label: "Clients satisfaits", icon: "🎯" },
-    { number: "24/7", label: "Support disponible", icon: "💬" },
-  ];
+const socialLinks = [
+  {
+    icon: <Facebook className="w-5 h-5 text-blue-600" />,
+    label: "Facebook",
+    href: "#",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-gray-500/30",
+  },
+  {
+    icon: <Instagram className="w-5 h-5 text-pink-500" />,
+    label: "Instagram",
+    href: "#",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-pink-500/30",
+  },
+  {
+    icon: <Music2 className="w-5 h-5 text-black" />,
+    label: "TikTok",
+    href: "#",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-neutral-500/30",
+  },
+  {
+    icon: <Twitter className="w-5 h-5 text-sky-500" />,
+    label: "Twitter",
+    href: "#",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-sky-500/30",
+  },
+  {
+    icon: <Phone className="w-5 h-5 text-green-500" />,
+    label: "WhatsApp",
+    href: "#",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-green-500/30",
+  },
+  {
+    icon: <Linkedin className="w-5 h-5 text-blue-700" />,
+    label: "LinkedIn",
+    href: "#",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-blue-500/30",
+  },
+  {
+    icon: <Mail className="w-5 h-5 text-red-500" />,
+    label: "Email",
+    href: "mailto:souleymanefall176@gmail.com",
+    gradient: "bg-white",
+    hoverColor: "hover:shadow-purple-500/30",
+  },
+];
+
+
+  // const stats = [
+  //   { number: "150+", label: "Projets réalisés", icon: "🚀" },
+  //   { number: "3+", label: "Années d'expérience", icon: "⏰" },
+  //   { number: "100%", label: "Clients satisfaits", icon: "🎯" },
+  //   { number: "24/7", label: "Support disponible", icon: "💬" },
+  // ];
 
   return (
     <footer className="relative bg-slate-950 overflow-hidden" ref={ref}>
@@ -196,7 +214,7 @@ const Footer = () => {
 
       <div className="relative z-10">
         {/* Stats Section */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -237,7 +255,7 @@ const Footer = () => {
               ))}
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Main Footer Content */}
         <div className="container mx-auto px-4 py-16">
@@ -294,15 +312,15 @@ const Footer = () => {
               {/* Contact Info */}
               <div className="space-y-2 text-gray-400">
                 <div className="flex items-center gap-2">
-                  <span>📍</span>
+                  <MapPin className="w-5 h-5 text-blue-500" />
                   <span>HLM Fass, Dakar, Sénégal</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span>📞</span>
+                  <PhoneCall className="w-5 h-5 text-blue-500" />
                   <span>+221 77 715 10 61</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span>✉️</span>
+                  <MailCheck className="w-5 h-5 text-blue-500" />
                   <span>souleymanefall176@gmail.com</span>
                 </div>
               </div>
@@ -369,7 +387,7 @@ const Footer = () => {
         </div>
 
         {/* Newsletter Section */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -430,7 +448,6 @@ const Footer = () => {
     )}
   </motion.button>
 </form>
-{/* Messages de statut newsletter */}
 {newsletterStatus === 'success' && (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
@@ -469,7 +486,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Bottom Bar */}
         <motion.div

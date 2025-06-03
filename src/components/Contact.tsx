@@ -2,6 +2,17 @@ import { motion, useInView, useMotionValue } from "framer-motion";
 import { useRef, useState } from "react";
 import { useContactForm } from "../hooks/useContactForm";
 import FallbackContact from "../components/FallbackContact";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Music2,
+  Phone,
+  Twitter,
+} from "lucide-react";
 
 // Ajout de la déclaration pour window.gtag
 declare global {
@@ -20,7 +31,7 @@ const Contact = () => {
     formState: { isSubmitting, submitStatus, errors, showFallback },
     handleChange,
     submitForm,
-    closeFallback
+    closeFallback,
   } = useContactForm();
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -64,15 +75,15 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: "📍",
+      icon: <MapPin className="w-6 h-6 text-white" />,
       title: "Localisation",
       value: "HLM Fass, Dakar, Sénégal",
       subValue: "Afrique de l'Ouest",
-      gradient: "from-emerald-600 to-teal-600",
+      gradient: "from-blue-600 to-cyan-600",
       action: "Voir sur la carte",
     },
     {
-      icon: "📞",
+      icon: <Phone className="w-6 h-6 text-white" />,
       title: "Téléphone",
       value: "+221 77 715 10 61",
       subValue: "Disponible 9h-18h WAT",
@@ -80,15 +91,15 @@ const Contact = () => {
       action: "Appeler maintenant",
     },
     {
-      icon: "✉️",
+      icon: <Mail className="w-6 h-6 text-white" />,
       title: "Email",
       value: "souleymanefall176@gmail.com",
       subValue: "Réponse sous 2h",
-      gradient: "from-purple-600 to-violet-600",
+      gradient: "from-blue-600 to-cyan-600",
       action: "Envoyer un email",
     },
     {
-      icon: "💬",
+      icon: <MessageCircle className="w-6 h-6 text-white" />,
       title: "WhatsApp",
       value: "+221 77 715 10 61",
       subValue: "Chat en temps réel",
@@ -148,7 +159,7 @@ const Contact = () => {
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
           <motion.h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black bg-gradient-to-r from-gray-900 via-blue-700 to-purple-700 bg-clip-text text-transparent mb-6 sm:mb-8 leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6 sm:mb-8 leading-tight"
             style={{ rotateX, rotateY }}
             whileHover={{ scale: 1.02 }}
           >
@@ -162,7 +173,7 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             Transformons votre vision en réalité digitale avec
-            <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-semibold">
+            <span className="text-transparent bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text font-semibold">
               {" "}
               l'innovation comme moteur
             </span>
@@ -214,13 +225,13 @@ const Contact = () => {
                   whileHover={{ scale: 1.02 }}
                 >
                   <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2 sm:gap-3">
-                    <motion.span
+                    {/* <motion.span
                       animate={{ rotate: [0, 10, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
                       className="text-xl sm:text-2xl"
                     >
                       🚀
-                    </motion.span>
+                    </motion.span> */}
                     <span className="leading-tight">
                       Démarrons votre projet
                     </span>
@@ -377,7 +388,7 @@ const Contact = () => {
                     className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border border-gray-200 rounded-xl sm:rounded-2xl text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 text-sm sm:text-base"
                   >
                     <option value="" className="bg-white">
-                      💰 Budget estimé
+                      Budget estimé
                     </option>
                     {budgetOptions.map((option) => (
                       <option
@@ -397,7 +408,7 @@ const Contact = () => {
                     className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border border-gray-200 rounded-xl sm:rounded-2xl text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all duration-300 text-sm sm:text-base"
                   >
                     <option value="" className="bg-white">
-                      ⏱️ Délai souhaité
+                      Délai souhaité
                     </option>
                     {timelineOptions.map((option) => (
                       <option
@@ -424,7 +435,7 @@ const Contact = () => {
                         ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                         : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                     }`}
-                    placeholder="💭 Décrivez votre projet en détail (objectifs, fonctionnalités, cible...) *"
+                    placeholder="Décrivez votre projet en détail (objectifs, fonctionnalités, cible...) *"
                     required
                     rows={5}
                   />
@@ -452,10 +463,10 @@ const Contact = () => {
                   disabled={isSubmitting}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full relative group bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-base sm:text-lg overflow-hidden disabled:opacity-70 shadow-lg"
+                  className="w-full relative group bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-base sm:text-lg overflow-hidden disabled:opacity-70 shadow-lg"
                 >
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600"
+                    className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600"
                     initial={{ x: "-100%" }}
                     whileHover={{ x: "0%" }}
                     transition={{ duration: 0.5 }}
@@ -478,12 +489,12 @@ const Contact = () => {
                     ) : (
                       <>
                         Envoyer le message
-                        <motion.span
+                        {/* <motion.span
                           animate={{ x: [0, 5, 0] }}
                           transition={{ duration: 1.5, repeat: Infinity }}
                         >
                           🚀
-                        </motion.span>
+                        </motion.span> */}
                       </>
                     )}
                   </span>
@@ -497,7 +508,8 @@ const Contact = () => {
                     className="text-center p-3 sm:p-4 bg-emerald-50 border border-emerald-200 rounded-xl sm:rounded-2xl"
                   >
                     <span className="text-emerald-600 font-medium text-sm sm:text-base">
-                      ✅ Message envoyé avec succès ! Nous vous répondrons sous 2h.
+                      ✅ Message envoyé avec succès ! Nous vous répondrons sous
+                      2h.
                     </span>
                   </motion.div>
                 )}
@@ -509,7 +521,9 @@ const Contact = () => {
                     className="text-center p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl"
                   >
                     <span className="text-red-600 font-medium text-sm sm:text-base">
-                      ❌ {errors.general || "Erreur lors de l'envoi. Veuillez réessayer."}
+                      ❌{" "}
+                      {errors.general ||
+                        "Erreur lors de l'envoi. Veuillez réessayer."}
                     </span>
                   </motion.div>
                 )}
@@ -572,6 +586,7 @@ const Contact = () => {
             </div>
 
             {/* Enhanced Social Links */}
+
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -579,53 +594,63 @@ const Contact = () => {
               className="bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg"
             >
               <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2">
-                <span>🌟</span>
+                {/* <span>🌟</span> */}
                 Suivez-nous
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 {[
                   {
-                    icon: "💼",
-                    label: "LinkedIn",
-                    gradient: "from-blue-600 to-blue-700",
-                    handle: "@datanexa",
+                    icon: <Facebook className="w-5 h-5 text-blue-600" />,
+                    label: "Facebook",
+                    handle: "@devflow",
                   },
                   {
-                    icon: "🐱",
-                    label: "GitHub",
-                    gradient: "from-gray-700 to-gray-800",
-                    handle: "@datanexa",
+                    icon: <Instagram className="w-5 h-5 text-pink-500" />,
+                    label: "Instagram",
+                    handle: "@devflow",
                   },
                   {
-                    icon: "🐦",
+                    icon: <Music2 className="w-5 h-5 text-black" />,
+                    label: "TikTok",
+                    handle: "@devflow",
+                  },
+                  {
+                    icon: <Twitter className="w-5 h-5 text-sky-500" />,
                     label: "Twitter",
-                    gradient: "from-sky-500 to-sky-600",
-                    handle: "@datanexa",
+                    handle: "@devflow",
                   },
-                  {
-                    icon: "📱",
-                    label: "WhatsApp",
-                    gradient: "from-green-600 to-green-700",
-                    handle: "Chat direct",
-                  },
-                ].map((social, index) => (
+                ].map((social) => (
                   <motion.a
                     key={social.label}
                     href="#"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-gradient-to-r ${social.gradient} rounded-lg sm:rounded-xl text-white shadow-lg`}
+                    className="flex items-center gap-3 px-3 py-2 bg-gray-100 rounded-lg sm:rounded-xl text-gray-800 shadow"
                   >
-                    <span className="text-base sm:text-lg">{social.icon}</span>
+                    {social.icon}
                     <div>
-                      <div className="font-semibold text-xs sm:text-sm">
+                      <div className="font-semibold text-sm">
                         {social.label}
                       </div>
-                      <div className="text-xs opacity-80">{social.handle}</div>
+                      <div className="text-xs opacity-70">{social.handle}</div>
                     </div>
                   </motion.a>
                 ))}
+
+                {/* LinkedIn en pleine largeur */}
+                <motion.a
+                  href="#"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="col-span-1 sm:col-span-2 flex items-center gap-3 px-3 py-2 bg-gray-100 rounded-lg sm:rounded-xl text-gray-800 shadow"
+                >
+                  <Linkedin className="w-5 h-5 text-blue-700" />
+                  <div>
+                    <div className="font-semibold text-sm">LinkedIn</div>
+                    <div className="text-xs opacity-70">@devflow</div>
+                  </div>
+                </motion.a>
               </div>
             </motion.div>
 
@@ -637,7 +662,7 @@ const Contact = () => {
               className="bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg"
             >
               <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2">
-                <span>⚡</span>
+                {/* <span>⚡</span> */}
                 Nos engagements
               </h4>
               <div className="space-y-3 sm:space-y-4">
@@ -645,7 +670,7 @@ const Contact = () => {
                   {
                     label: "Première réponse",
                     value: "< 2h",
-                    color: "text-emerald-600",
+                    color: "text-blue-600",
                     icon: "💬",
                   },
                   {
@@ -657,13 +682,13 @@ const Contact = () => {
                   {
                     label: "Démarrage projet",
                     value: "< 1 semaine",
-                    color: "text-purple-600",
+                    color: "text-blue-600",
                     icon: "🚀",
                   },
                   {
                     label: "Support technique",
                     value: "24/7",
-                    color: "text-orange-600",
+                    color: "text-blue-600",
                     icon: "🛠️",
                   },
                 ].map((stat, index) => (
@@ -673,7 +698,7 @@ const Contact = () => {
                     whileHover={{ backgroundColor: "rgb(243 244 246)" }}
                   >
                     <span className="text-gray-700 flex items-center gap-2 text-xs sm:text-sm">
-                      <span className="text-sm sm:text-base">{stat.icon}</span>
+                      {/* <span className="text-sm sm:text-base">{stat.icon}</span> */}
                       {stat.label}
                     </span>
                     <span
@@ -697,7 +722,8 @@ const Contact = () => {
                 Prêt à commencer ?
               </h4>
               <p className="text-sm sm:text-base mb-4 opacity-90">
-                Remplissez le formulaire ci-dessus ou contactez-nous directement !
+                Remplissez le formulaire ci-dessus ou contactez-nous directement
+                !
               </p>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <motion.a
@@ -733,7 +759,8 @@ const Contact = () => {
               Basé à Dakar, Sénégal
             </h4>
             <p className="text-sm text-gray-600 mb-4">
-              Nous servons des clients dans toute l'Afrique de l'Ouest et au-delà
+              Nous servons des clients dans toute l'Afrique de l'Ouest et
+              au-delà
             </p>
             <div className="flex flex-wrap justify-center gap-2 text-xs text-gray-500">
               <span className="bg-white px-3 py-1 rounded-full">

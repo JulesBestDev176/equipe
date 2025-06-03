@@ -35,7 +35,7 @@ const Hero = () => {
   return (
     <section
       id="accueil"
-      className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center relative overflow-hidden pt-24"
+      className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white flex items-center relative overflow-hidden pt-24"
       // ☝️ Ajout de pt-20 pour compenser la hauteur du header fixe
     >
       {/* Background avec effets géométriques */}
@@ -167,7 +167,7 @@ const Hero = () => {
                 {texts[currentText].main}
               </h2>
               <p
-                className={`text-2xl md:text-3xl font-light bg-gradient-to-r ${texts[currentText].color} bg-clip-text text-transparent`}
+                className={`text-2xl md:text-3xl font-light  text-white`}
               >
                 {texts[currentText].sub}
               </p>
@@ -183,14 +183,14 @@ const Hero = () => {
           className="text-lg md:text-xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed"
         >
           Équipe de développeurs passionnés en création de
-          <span className="text-indigo-400 font-semibold"> sites web</span> et
-          <span className="text-purple-400 font-semibold"> applications</span>,
+          <span className="text-white font-semibold"> sites web</span> et
+          <span className="text-white font-semibold"> applications</span>,
           avec des agents IA capables d’agir depuis
-          <span className="text-green-400 font-semibold"> WhatsApp</span> : envoyer des mails, fixer des rendez-vous, et plus encore.
+          <span className="text-white font-semibold"> WhatsApp</span> : envoyer des mails, fixer des rendez-vous, et plus encore.
         </motion.p>
 
         {/* Boutons CTA avec couleurs harmonieuses */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.3 }}
@@ -256,7 +256,7 @@ const Hero = () => {
               Découvrir nos services
             </span>
           </motion.button>
-        </motion.div>
+        </motion.div> */}
 
         {/* Stats avec couleurs coordonnées */}
         <motion.div
@@ -268,7 +268,7 @@ const Hero = () => {
           {[
             {
               icon: "📊",
-              number: "100+",
+              number: "150+",
               label: "Projets réalisés",
               color: "text-blue-400",
             },
@@ -276,13 +276,13 @@ const Hero = () => {
               icon: "⏱️",
               number: "3+",
               label: "Années d'expérience",
-              color: "text-indigo-400",
+              color: "text-blue-400",
             },
             {
               icon: "😊",
               number: "100%",
               label: "Clients satisfaits",
-              color: "text-purple-400",
+              color: "text-blue-400",
             },
           ].map((stat, index) => (
             <motion.div
@@ -293,7 +293,7 @@ const Hero = () => {
               whileHover={{ scale: 1.1, y: -5 }}
               className="text-center group cursor-pointer"
             >
-              <motion.div
+              {/* <motion.div
                 className="text-3xl mb-2"
                 animate={{
                   scale: [1, 1.1, 1],
@@ -306,7 +306,7 @@ const Hero = () => {
                 }}
               >
                 {stat.icon}
-              </motion.div>
+              </motion.div> */}
               <div
                 className={`text-2xl md:text-3xl font-bold ${stat.color} mb-1`}
               >

@@ -22,7 +22,7 @@ const Team = () => {
     specialties: ["Backend", "Frontend", "Automatisation"],
     description: "Aliou est un développeur backend rigoureux qui construit des APIs robustes et sécurisées. Son aisance sur le frontend et son intérêt pour l’automatisation font de lui un élément clé pour assurer la polyvalence et la cohérence technique de l’équipe.",
     image: "./assets/teams/aliou.jpg",
-    gradient: "from-purple-600 to-pink-600",
+    gradient: "from-blue-600 to-cyan-600",
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const Team = () => {
     specialties: ["Automatisation", "Frontend", "Backend"],
     description: "Kissima est le moteur de l’automatisation des workflows de l’équipe. Grâce à sa double compétence en développement web et intégration intelligente, il intervient aisément sur les autres volets techniques pour garantir l’efficacité globale du projet.",
     image: "./assets/teams/kissima.jpg",
-    gradient: "from-emerald-600 to-teal-600",
+    gradient: "from-blue-600 to-cyan-600",
   }
 ];
 
@@ -153,11 +153,11 @@ const Team = () => {
               <div className="text-sm text-gray-500">Années d'expérience</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">150+</div>
+              <div className="text-2xl font-bold text-blue-600">150+</div>
               <div className="text-sm text-gray-500">Projets réalisés</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-600">100%</div>
+              <div className="text-2xl font-bold text-blue-600">100%</div>
               <div className="text-sm text-gray-500">Satisfaction client</div>
             </div>
           </motion.div>
