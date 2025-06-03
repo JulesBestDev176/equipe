@@ -354,7 +354,7 @@ const SiteVitrinePage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
               Nos Solutions Web
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">

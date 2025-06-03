@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ArrowRight, CheckCircle, Star, MessageCircle, Calendar, Mail, Share2, BarChart3, Shield, Headphones, Zap, Users, Clock, Award, Globe, Monitor, Database, Code, Phone, Rocket, BadgeDollarSign, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, MessageCircle, Calendar, Mail, Share2, BarChart3, Shield, Headphones, Zap, Users, Clock, Award, Globe, Monitor, Database, Code, Phone, Rocket, BadgeDollarSign, ShieldCheck, Settings, BookOpen, Cpu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -190,35 +190,39 @@ const AgentIAPage = () => {
   ];
 
   const howItWorksSteps = [
-    {
-      step: "1",
-      title: "Configuration sur Mesure",
-      description: "Nous personnalisons votre IA selon vos besoins spécifiques et vos outils existants.",
-      icon: "⚙️",
-      color: "from-blue-500 to-indigo-600"
-    },
-    {
-      step: "2", 
-      title: "Formation Express",
-      description: "30 minutes pour maîtriser le système. Une interface simple comme WhatsApp !",
-      icon: "🎓",
-      color: "from-purple-500 to-pink-600"
-    },
-    {
-      step: "3",
-      title: "L'IA Prend le Relais",
-      description: "Elle gère vos communications, planning et réseaux sociaux automatiquement.",
-      icon: "🤖",
-      color: "from-emerald-500 to-teal-600"
-    },
-    {
-      step: "4",
-      title: "Vous Concentrez sur l'Essentiel",
-      description: "Gagnez du temps pour ce qui compte vraiment pendant que l'IA gère le quotidien.",
-      icon: "⏱️",
-      color: "from-orange-500 to-red-600"
-    }
-  ];
+  {
+    step: "1",
+    title: "Configuration sur Mesure",
+    description:
+      "Nous personnalisons votre IA selon vos besoins spécifiques et vos outils existants.",
+    icon: <Settings className="h-8 w-8 text-white" />,
+    color: "from-blue-500 via-blue-600 to-indigo-700",
+  },
+  {
+    step: "2",
+    title: "Formation Express",
+    description:
+      "30 minutes pour maîtriser le système. Une interface simple comme WhatsApp !",
+    icon: <BookOpen className="h-8 w-8 text-white" />,
+    color: "from-blue-500 via-blue-600 to-indigo-700",
+  },
+  {
+    step: "3",
+    title: "L'IA Prend le Relais",
+    description:
+      "Elle gère vos communications, planning et réseaux sociaux automatiquement.",
+    icon: <Cpu className="h-8 w-8 text-white" />,
+    color: "from-blue-500 via-blue-600 to-indigo-700",
+  },
+  {
+    step: "4",
+    title: "Vous Concentrez sur l'Essentiel",
+    description:
+      "Gagnez du temps pour ce qui compte vraiment pendant que l'IA gère le quotidien.",
+    icon: <Clock className="h-8 w-8 text-white" />,
+    color: "from-blue-500 via-blue-600 to-indigo-700",
+  },
+];
 
   const testimonials = [
     {
@@ -435,7 +439,7 @@ const AgentIAPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16 md:mb-20"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{ 
                 scale: [1, 1.1, 1],
@@ -444,14 +448,11 @@ const AgentIAPage = () => {
               transition={{ duration: 3, repeat: Infinity }}
             >
               💰
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Tarifs{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Adaptés
-              </span>{" "}
-              à Vos Besoins
+            </motion.div> */}
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Tarifs Adaptés à Vos Besoins
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Choisissez la formule qui correspond à votre niveau d'activité
             </p>
@@ -467,7 +468,7 @@ const AgentIAPage = () => {
                 whileHover={{ scale: plan.popular ? 1.02 : 1.05, y: -5 }}
                 className={`relative p-6 lg:p-8 rounded-3xl transition-all duration-500 ${
                   plan.popular 
-                    ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-2xl scale-105 border-2 border-white/20' 
+                    ? 'bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 text-white shadow-2xl scale-105 border-2 border-white/20' 
                     : 'bg-white/80 backdrop-blur-sm border-2 border-gray-200 shadow-xl hover:shadow-2xl'
                 }`}
               >
@@ -589,7 +590,7 @@ const AgentIAPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16 md:mb-20"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{
                 scale: [1, 1.1, 1],
@@ -598,13 +599,11 @@ const AgentIAPage = () => {
               transition={{ duration: 3, repeat: Infinity }}
             >
               🤖
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Libérez-vous des{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Tâches Répétitives
-              </span>
+            </motion.div> */}
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Libérez-vous des Tâches Répétitives
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Découvrez comment regagner des heures chaque jour en automatisant votre quotidien
             </p>
@@ -707,7 +706,7 @@ const AgentIAPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16 md:mb-20"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{ 
                 scale: [1, 1.1, 1],
@@ -716,14 +715,11 @@ const AgentIAPage = () => {
               transition={{ duration: 4, repeat: Infinity }}
             >
               ⚡
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Solutions{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Avancées
-              </span>{" "}
-              d'Automatisation
+            </motion.div> */}
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Solutions Avancées d'Automatisation
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Des outils puissants pour optimiser chaque aspect de votre vie professionnelle
             </p>
@@ -785,7 +781,7 @@ const AgentIAPage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
-            className="text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 lg:p-12 rounded-3xl shadow-2xl relative overflow-hidden"
+            className="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 text-white p-8 lg:p-12 rounded-3xl shadow-2xl relative overflow-hidden"
           >
             <motion.div
               className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white/10 to-transparent"
@@ -820,7 +816,7 @@ const AgentIAPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16 md:mb-20"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{ 
                 scale: [1, 1.2, 1],
@@ -829,14 +825,11 @@ const AgentIAPage = () => {
               transition={{ duration: 5, repeat: Infinity }}
             >
               🎯
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Exemples{" "}
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                Concrets
-              </span>{" "}
-              d'Automatisation
+            </motion.div> */}
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Exemples Concrets d'Automatisation
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Voici comment votre assistant IA peut transformer votre quotidien
             </p>
@@ -913,7 +906,7 @@ const AgentIAPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16 md:mb-20"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{ 
                 scale: [1, 1.1, 1],
@@ -922,13 +915,11 @@ const AgentIAPage = () => {
               transition={{ duration: 3, repeat: Infinity }}
             >
               ⚙️
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Comment{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Ça Marche
-              </span>
+            </motion.div> */}
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Comment Ça Marche
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Une intégration simple et rapide pour des résultats immédiats
             </p>
@@ -953,7 +944,7 @@ const AgentIAPage = () => {
                     <span className="text-2xl lg:text-3xl">{step.icon}</span>
                   </motion.div>
                   
-                  {index < howItWorksSteps.length - 1 && (
+                  {/* {index < howItWorksSteps.length - 1 && (
                     <motion.div
                       className="hidden lg:block absolute top-8 lg:top-10 left-full w-full h-0.5 bg-gradient-to-r from-gray-300 to-gray-200"
                       initial={{ scaleX: 0 }}
@@ -961,7 +952,7 @@ const AgentIAPage = () => {
                       transition={{ duration: 0.8, delay: index * 0.2 + 0.5 }}
                       style={{ transformOrigin: "left" }}
                     />
-                  )}
+                  )} */}
                 </div>
                 
                 <motion.h3
@@ -1093,7 +1084,7 @@ const AgentIAPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16 md:mb-20"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{ 
                 scale: [1, 1.1, 1],
@@ -1102,13 +1093,11 @@ const AgentIAPage = () => {
               transition={{ duration: 3, repeat: Infinity }}
             >
               ⭐
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Ils Nous{" "}
-              <span className="bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
-                Font Confiance
-              </span>
+            </motion.div> */}
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Ils Nous Font Confiance
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Découvrez comment nos clients ont transformé leur quotidien
             </p>
@@ -1187,7 +1176,7 @@ const AgentIAPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <motion.div
+            {/* <motion.div
               className="text-4xl md:text-5xl mb-6"
               animate={{ 
                 scale: [1, 1.1, 1],
@@ -1196,13 +1185,12 @@ const AgentIAPage = () => {
               transition={{ duration: 4, repeat: Infinity }}
             >
               🚀
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Découvrez Nos{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Autres Solutions
-              </span>
+            </motion.div> */}
+
+            <h2 className="text-4xl md:text-5xl  font-bold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-6">
+              Découvrez Nos Autres Solutions
             </h2>
+            
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Complétez votre transformation digitale
             </p>
@@ -1217,11 +1205,11 @@ const AgentIAPage = () => {
             <motion.div
               variants={itemVariants}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="relative p-6 lg:p-8 rounded-3xl transition-all duration-500 cursor-pointer group bg-emerald-50 border border-white/50 shadow-xl hover:shadow-2xl"
+              className="relative p-6 lg:p-8 rounded-3xl transition-all duration-500 cursor-pointer group bg-blue-50 border border-white/50 shadow-xl hover:shadow-2xl"
             >
               <div className="text-center">
                 <motion.div
-                  className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+                  className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 >
                   <Globe className="w-8 h-8" />
@@ -1234,7 +1222,7 @@ const AgentIAPage = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full py-3 lg:py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow text-sm lg:text-base"
+                    className="w-full py-3 lg:py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow text-sm lg:text-base"
                   >
                     Découvrir →
                   </motion.button>
@@ -1245,11 +1233,11 @@ const AgentIAPage = () => {
             <motion.div
               variants={itemVariants}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="relative p-6 lg:p-8 rounded-3xl transition-all duration-500 cursor-pointer group bg-purple-50 border border-white/50 shadow-xl hover:shadow-2xl"
+              className="relative p-6 lg:p-8 rounded-3xl transition-all duration-500 cursor-pointer group bg-blue-50 border border-white/50 shadow-xl hover:shadow-2xl"
             >
               <div className="text-center">
                 <motion.div
-                  className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+                  className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 >
                   <Monitor className="w-8 h-8" />
@@ -1262,7 +1250,7 @@ const AgentIAPage = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full py-3 lg:py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow text-sm lg:text-base"
+                    className="w-full py-3 lg:py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow text-sm lg:text-base"
                   >
                     Découvrir →
                   </motion.button>
